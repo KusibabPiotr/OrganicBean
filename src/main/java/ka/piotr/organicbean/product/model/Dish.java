@@ -1,12 +1,12 @@
 package ka.piotr.organicbean.product.model;
 
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Entity
@@ -28,8 +28,8 @@ public class Dish {
     @NotNull
     @Column(name = "PRICE")
     private BigDecimal price;
-    @Column(name = "KCAL")
     @NotNull
+    @Column(name = "KCAL")
     private int kcal;
     @Column(name = "GLUTEN_FREE")
     private boolean glutenFree;
@@ -41,4 +41,6 @@ public class Dish {
     @Enumerated(EnumType.STRING)
     @Column(name = "FOOD_TYPE")
     private FoodType foodType;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Menu menu;
 }
