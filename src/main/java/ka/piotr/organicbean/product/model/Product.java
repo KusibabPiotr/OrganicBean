@@ -28,4 +28,7 @@ public class Product {
     @NotNull
     @Column(name = "PRICE")
     private BigDecimal price;
+    @ManyToOne
+    @JoinColumn(name = "PRODUCT_ID")
+    private Menu menu;
 }

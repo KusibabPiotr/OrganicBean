@@ -26,9 +26,12 @@ public class Drink {
     @Column(name = "DESCRIPTION")
     private String description;
     @NotNull
-    @Column(name = "PRICE",)
+    @Column(name = "PRICE")
     private BigDecimal price;
     @NotNull
     @Column(name = "KCAL")
     private int kcal;
+    @ManyToOne
+    @JoinColumn(name = "MENU_ID")
+    private Menu menu;
 }

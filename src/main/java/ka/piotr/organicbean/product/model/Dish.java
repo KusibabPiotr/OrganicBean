@@ -42,5 +42,6 @@ public class Dish {
     @Column(name = "FOOD_TYPE")
     private FoodType foodType;
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "MENU_ID")
     private Menu menu;
 }
