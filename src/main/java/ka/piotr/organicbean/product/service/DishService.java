@@ -20,15 +20,15 @@ public class DishService {
         return dishRepository.findAll();
     }
 
-    public Optional<Dish> getDish(Long id){
+    public Optional<Dish> getDish(final Long id){
         return dishRepository.findById(id);
     }
 
-    public Dish createDish(Dish dish){
+    public Dish saveDish(final Dish dish){
         return dishRepository.save(dish);
     }
 
-    public Dish updateDish(Dish dish){
-        dishRepository.save(dish);
+    public void deleteDish(final Long id){
+        dishRepository.deleteById(id);
     }
 }

@@ -1,7 +1,7 @@
 package ka.piotr.organicbean.product.controller.mapper;
 
 import ka.piotr.organicbean.product.model.domain.Dish;
-import ka.piotr.organicbean.product.model.domain.DishDto;
+import ka.piotr.organicbean.product.model.dtoo.DishDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

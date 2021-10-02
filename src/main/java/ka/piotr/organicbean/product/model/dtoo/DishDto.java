@@ -1,4 +1,4 @@
-package ka.piotr.organicbean.product.model.domain;
+package ka.piotr.organicbean.product.model.dtoo;
 
 import ka.piotr.organicbean.product.model.domain.FoodType;
 import ka.piotr.organicbean.product.model.domain.Menu;
