@@ -1,5 +1,6 @@
-package ka.piotr.organicbean.product.model;
+package ka.piotr.organicbean.product.model.domain;
 
+import ka.piotr.organicbean.product.model.domain.Menu;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

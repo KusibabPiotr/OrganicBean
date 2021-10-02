@@ -1,4 +1,4 @@
-package ka.piotr.organicbean.product.model;
+package ka.piotr.organicbean.product.model.domain;
 
 public enum FoodType {
     STARTERS("Starter"),

@@ -1,6 +1,6 @@
 package ka.piotr.organicbean.product.repository;
 
-import ka.piotr.organicbean.product.model.Product;
+import ka.piotr.organicbean.product.model.domain.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

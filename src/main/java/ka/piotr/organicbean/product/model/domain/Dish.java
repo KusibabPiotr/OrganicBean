@@ -1,4 +1,4 @@
-package ka.piotr.organicbean.product.model;
+package ka.piotr.organicbean.product.model.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
