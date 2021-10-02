@@ -1,7 +1,7 @@
 package ka.piotr.organicbean.product.controller.mapper;
 
 import ka.piotr.organicbean.product.model.domain.Drink;
-import ka.piotr.organicbean.product.model.domain.DrinkDto;
+import ka.piotr.organicbean.product.model.dto.DrinkDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

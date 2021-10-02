@@ -2,13 +2,11 @@ package ka.piotr.organicbean.product.controller;
 
 import ka.piotr.organicbean.product.controller.mapper.DrinkMapper;
 import ka.piotr.organicbean.product.exceptions.DrinkNotFoundException;
-import ka.piotr.organicbean.product.model.domain.DrinkDto;
+import ka.piotr.organicbean.product.model.dto.DrinkDto;
 import ka.piotr.organicbean.product.service.DrinkService;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
 import java.util.List;
 
 @RestController

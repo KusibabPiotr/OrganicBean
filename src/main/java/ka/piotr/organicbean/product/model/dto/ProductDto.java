@@ -1,5 +1,6 @@
-package ka.piotr.organicbean.product.model.domain;
+package ka.piotr.organicbean.product.model.dto;
 
+import ka.piotr.organicbean.product.model.domain.Menu;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -7,13 +8,11 @@ import java.math.BigDecimal;
 
 @AllArgsConstructor
 @Getter
-public class DrinkDto {
+public class ProductDto {
 
     private Long id;
     private String name;
     private String description;
     private BigDecimal price;
-    private int kcal;
     private Menu menu;
-
 }

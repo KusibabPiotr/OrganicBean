@@ -2,7 +2,7 @@ package ka.piotr.organicbean.product.controller;
 
 import ka.piotr.organicbean.product.controller.mapper.DishMapper;
 import ka.piotr.organicbean.product.exceptions.DishNotFoundException;
-import ka.piotr.organicbean.product.model.dtoo.DishDto;
+import ka.piotr.organicbean.product.model.dto.DishDto;
 import ka.piotr.organicbean.product.service.DishService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +34,7 @@ public class DishController {
 
     @PostMapping(value = "createDish",
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void createDish(@RequestBody DishDto dishDto){
+    public void createDish(@RequestBody DishDto dishDto) {
         dishService.saveDish(dishMapper.mapToDish(dishDto));
     }
 
