@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class OrganicbeanApplication {
+public class OrganicBeanApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OrganicbeanApplication.class, args);
+        SpringApplication.run(OrganicBeanApplication.class, args);
     }
 
 }

@@ -4,39 +4,36 @@ import ka.piotr.organicbean.product.controller.mapper.MenuMapper;
 import ka.piotr.organicbean.product.exceptions.MenuNotFoundException;
 import ka.piotr.organicbean.product.model.dto.MenuDto;
 import ka.piotr.organicbean.product.service.MenuService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/menu")
+@RequiredArgsConstructor
 public class MenuController {
 
-    private MenuService menuService;
-    private MenuMapper menuMapper;
+    private final MenuService menuService;
+    private final MenuMapper menuMapper;
 
-    public MenuController(MenuService menuService, MenuMapper menuMapper) {
-        this.menuService = menuService;
-        this.menuMapper = menuMapper;
-    }
-
-    @GetMapping("getMenu")
+    @GetMapping("get")
     public MenuDto getMenu() throws MenuNotFoundException {
         return menuMapper.mapToMenuDto(menuService.getMenu().orElseThrow(MenuNotFoundException::new));
     }
 
-    @PostMapping(value = "createMenu",
+    @PostMapping(value = "create",
     consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createMenu(@RequestBody MenuDto menuDto){
         menuService.saveMenu(menuMapper.mapToMenu(menuDto));
     }
 
-    @PutMapping(value = "updateMenu",
+    @PutMapping(value = "update",
     consumes = MediaType.APPLICATION_JSON_VALUE)
     public MenuDto updateMenu(@RequestBody MenuDto menuDto){
         return menuMapper.mapToMenuDto(menuService.saveMenu(menuMapper.mapToMenu(menuDto)));
     }
 
-    @DeleteMapping(value = "deleteMenu")
+    @DeleteMapping(value = "delete")
     public void deleteMenu(@RequestParam Long id){
         menuService.deleteMenu(id);
     }
