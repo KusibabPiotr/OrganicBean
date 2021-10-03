@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "DRINK")
+@Table(name = "DRINKS")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

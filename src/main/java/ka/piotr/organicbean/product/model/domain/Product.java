@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "PRODUCT")
+@Table(name = "PRODUCTS")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

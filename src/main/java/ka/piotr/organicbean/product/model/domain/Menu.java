@@ -36,21 +36,21 @@ public final class Menu {
             targetEntity = Product.class)
     private List<Product> productList = new ArrayList<>();
 
-    //    private static MenuDto menuDto = null;
+//        private static Menu menu = null;
 //
-//    private MenuDto(){}
+//    private Menu(){}
 //
-//    private MenuDto(List<Dish> dishList, List<Drink> drinkList, List<Product> productList) {
+//    private Menu(List<Dish> dishList, List<Drink> drinkList, List<Product> productList) {
 //        this.dishList = dishList;
 //        this.drinkList = drinkList;
 //        this.productList = productList;
 //    }
 //
-//    public static MenuDto getInstance() {
-//        if (menuDto == null) {
-//            menuDto = new MenuDto(new ArrayList<>(),new ArrayList<>(),new ArrayList<>());
+//    public static Menu getInstance() {
+//        if (menu == null) {
+//            menu = new Menu(new ArrayList<>(),new ArrayList<>(),new ArrayList<>());
 //        }
-//        return menuDto;
+//        return menu;
 //    }
 
 
