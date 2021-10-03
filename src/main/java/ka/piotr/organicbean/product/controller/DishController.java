@@ -23,8 +23,8 @@ public class DishController {
        return dishMapper.mapToDishDtoList(dishService.getDishes());
     }
 
-    @GetMapping(value = "get")
-    public DishDto getDish(@RequestParam Long id) throws DishNotFoundException {
+    @GetMapping(value = "get/{id}")
+    public DishDto getDish(@PathVariable Long id) throws DishNotFoundException {
         return dishMapper.mapToDishDto(dishService.getDish(id)
                 .orElseThrow(DishNotFoundException::new));
     }
@@ -41,8 +41,8 @@ public class DishController {
         return dishMapper.mapToDishDto(dishService.saveDish(dishMapper.mapToDish(dishDto)));
     }
 
-    @DeleteMapping(value = "delete")
-    public void deleteDish(@RequestParam Long id){
+    @DeleteMapping(value = "delete/{id}")
+    public void deleteDish(@PathVariable Long id){
         dishService.deleteDish(id);
     }
 }

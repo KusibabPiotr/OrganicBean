@@ -11,11 +11,12 @@ import java.util.List;
 
 @Entity
 @Table(name = "MENU")
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-public class Menu {
+public final class Menu {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID",unique = true)

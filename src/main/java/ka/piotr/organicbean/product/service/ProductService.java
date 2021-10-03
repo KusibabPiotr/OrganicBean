@@ -2,19 +2,17 @@ package ka.piotr.organicbean.product.service;
 
 import ka.piotr.organicbean.product.model.domain.Product;
 import ka.piotr.organicbean.product.repository.ProductRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
 
-    private ProductRepository productRepository;
-
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
+    private final ProductRepository productRepository;
 
     public List<Product> getProducts() {
         return productRepository.findAll();

@@ -23,8 +23,8 @@ public class DrinkController {
         return drinkMapper.mapToDrinkDtoList(drinkService.getDrinks());
     }
 
-    @GetMapping(value = "get")
-    public DrinkDto getDrink(@RequestParam Long id) throws DrinkNotFoundException {
+    @GetMapping(value = "get/{id}")
+    public DrinkDto getDrink(@PathVariable Long id) throws DrinkNotFoundException {
         return drinkMapper.mapToDrinkDto(drinkService.getDrink(id)
                 .orElseThrow(DrinkNotFoundException::new));
     }
@@ -41,8 +41,8 @@ public class DrinkController {
         return drinkMapper.mapToDrinkDto(drinkService.saveDrink(drinkMapper.mapToDrink(drinkDto)));
     }
 
-    @DeleteMapping(value = "delete")
-    public void deleteDrink(@RequestParam Long id){
+    @DeleteMapping(value = "delete/{id}")
+    public void deleteDrink(@PathVariable Long id){
         drinkService.deleteDrink(id);
     }
 }

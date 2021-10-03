@@ -1,5 +1,6 @@
 package ka.piotr.organicbean.product.model.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Drink {
+public final class Drink {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID",unique = true)
@@ -31,7 +32,8 @@ public class Drink {
     @NotNull
     @Column(name = "KCAL")
     private int kcal;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MENU_ID")
+    @JsonIgnore
     private Menu menu;
 }

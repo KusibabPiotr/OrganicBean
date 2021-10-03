@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 @AllArgsConstructor
 @Getter
-public class ProductDto {
+public final class ProductDto {
 
     private Long id;
     private String name;

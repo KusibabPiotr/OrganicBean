@@ -2,18 +2,16 @@ package ka.piotr.organicbean.weather.service;
 
 import ka.piotr.organicbean.weather.client.WeatherClient;
 import ka.piotr.organicbean.weather.dto.OutputWeatherDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class WeatherService {
 
-    private WeatherClient weatherClient;
+    private final WeatherClient weatherClient;
 
-    public WeatherService(WeatherClient weatherClient) {
-        this.weatherClient = weatherClient;
-    }
-
-    public OutputWeatherDto getDataFromApi(String city){
-        return  weatherClient.getNowWeatherConditions(city);
+    public OutputWeatherDto getDataFromApi(){
+        return  weatherClient.getNowWeatherConditions();
     }
 }

@@ -23,16 +23,16 @@ public class ProductController {
         return productMapper.mapToProductDtoList(productService.getProducts());
     }
 
-    @GetMapping(value = "get")
-    public ProductDto getProduct(@RequestParam Long id) throws ProductNotFoundException {
+    @GetMapping(value = "get/{id}")
+    public ProductDto getProduct(@PathVariable Long id) throws ProductNotFoundException {
         return productMapper.mapToProductDto(productService.getProduct(id).
                 orElseThrow(ProductNotFoundException::new));
     }
 
     @PostMapping(value = "create",
     consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void createProduct(@RequestBody ProductDto productDto){
-        productService.saveProduct(productMapper.mapToProduct(productDto));
+    public ProductDto createProduct(@RequestBody ProductDto productDto){
+        return productMapper.mapToProductDto(productService.saveProduct(productMapper.mapToProduct(productDto)));
     }
 
     @PutMapping(value = "update",
@@ -41,8 +41,8 @@ public class ProductController {
         return productMapper.mapToProductDto(productService.saveProduct(productMapper.mapToProduct(productDto)));
     }
 
-    @DeleteMapping(value = "delete")
-    public void deleteProduct(@RequestParam Long id){
+    @DeleteMapping(value = "delete/{id}")
+    public void deleteProduct(@PathVariable Long id){
         productService.deleteProduct(id);
     }
 }
