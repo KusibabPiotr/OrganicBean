@@ -30,13 +30,13 @@ public class MenuController {
     @PostMapping(value = "create",
     consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createMenu(@RequestBody MenuDto menuDto){
-        menuService.saveMenu(menuMapper.mapToMenu(menuDto));
+        menuService.saveMenu(menuMapper.mapToMenu(menuDto,null));
     }
 
-    @PutMapping(value = "update",
+    @PutMapping(value = "update/{id}",
     consumes = MediaType.APPLICATION_JSON_VALUE)
-    public MenuDto updateMenu(@RequestBody MenuDto menuDto){
-        return menuMapper.mapToMenuDto(menuService.saveMenu(menuMapper.mapToMenu(menuDto)));
+    public MenuDto updateMenu(@PathVariable Long id, @RequestBody MenuDto menuDto){
+        return menuMapper.mapToMenuDto(menuService.saveMenu(menuMapper.mapToMenu(menuDto,id)));
     }
 
     @DeleteMapping(value = "delete/{id}")

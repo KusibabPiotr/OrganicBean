@@ -32,13 +32,13 @@ public class ProductController {
     @PostMapping(value = "create",
     consumes = MediaType.APPLICATION_JSON_VALUE)
     public ProductDto createProduct(@RequestBody ProductDto productDto){
-        return productMapper.mapToProductDto(productService.saveProduct(productMapper.mapToProduct(productDto)));
+        return productMapper.mapToProductDto(productService.saveProduct(productMapper.mapToProduct(productDto,null)));
     }
 
-    @PutMapping(value = "update",
+    @PutMapping(value = "update/{id}",
     consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ProductDto updateProduct(@RequestBody ProductDto productDto){
-        return productMapper.mapToProductDto(productService.saveProduct(productMapper.mapToProduct(productDto)));
+    public ProductDto updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto){
+        return productMapper.mapToProductDto(productService.saveProduct(productMapper.mapToProduct(productDto,id)));
     }
 
     @DeleteMapping(value = "delete/{id}")

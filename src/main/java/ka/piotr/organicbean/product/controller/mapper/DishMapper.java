@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 @Component
 public class DishMapper {
 
-    public Dish mapToDish(final DishDto dishDto){
-        return new Dish(dishDto.getId(),
+    public Dish mapToDish(final DishDto dishDto,final Long id){
+        return new Dish(id,
                 dishDto.getName(),
                 dishDto.getDescription(),
                 dishDto.getPrice(),
@@ -24,7 +24,7 @@ public class DishMapper {
     }
 
     public DishDto mapToDishDto(final Dish dish){
-        return new DishDto(dish.getId(),
+        return new DishDto(
                 dish.getName(),
                 dish.getDescription(),
                 dish.getPrice(),

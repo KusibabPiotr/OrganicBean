@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 @Getter
 public class WeatherConfig {
 
-    @Value("ecb50481b265872817c44b68d5c142d5")
+    @Value("${openweathermap.api.key}")
     private String openWeatherApiKey;
 
-    @Value("http://api.openweathermap.org/data/2.5/weather")
+    @Value("${openweathermap.now.endpoint}")
     private String openWeatherEndpoint;
 }

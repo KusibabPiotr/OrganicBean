@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/drink")
+@RequestMapping("/v1/drinks")
 @RequiredArgsConstructor
 public class DrinkController {
 
@@ -32,13 +32,13 @@ public class DrinkController {
     @PostMapping(value = "create",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public DrinkDto createDrink(@RequestBody DrinkDto drinkDto){
-        return drinkMapper.mapToDrinkDto(drinkService.saveDrink(drinkMapper.mapToDrink(drinkDto)));
+        return drinkMapper.mapToDrinkDto(drinkService.saveDrink(drinkMapper.mapToDrink(drinkDto,null)));
     }
 
-    @PutMapping(value = "update",
+    @PutMapping(value = "update/{id}",
     consumes = MediaType.APPLICATION_JSON_VALUE)
-    public DrinkDto updateDrink(@RequestBody DrinkDto drinkDto){
-        return drinkMapper.mapToDrinkDto(drinkService.saveDrink(drinkMapper.mapToDrink(drinkDto)));
+    public DrinkDto updateDrink(@PathVariable Long id, @RequestBody DrinkDto drinkDto){
+        return drinkMapper.mapToDrinkDto(drinkService.saveDrink(drinkMapper.mapToDrink(drinkDto,id)));
     }
 
     @DeleteMapping(value = "delete/{id}")

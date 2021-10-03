@@ -8,14 +8,14 @@ import org.springframework.stereotype.Component;
 public class MenuMapper {
 
     public MenuDto mapToMenuDto(final Menu menu){
-        return new MenuDto(menu.getId(),
+        return new MenuDto(
                 menu.getDishList(),
                 menu.getDrinkList(),
                 menu.getProductList());
     }
 
-    public Menu mapToMenu(final MenuDto menuDto){
-        return new Menu(menuDto.getId(),
+    public Menu mapToMenu(final MenuDto menuDto, final Long id){
+        return new Menu(id,
                 menuDto.getDishList(),
                 menuDto.getDrinkList(),
                 menuDto.getProductList());

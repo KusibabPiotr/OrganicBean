@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/dish")
+@RequestMapping("/v1/dishes")
 @RequiredArgsConstructor
 public class DishController {
 
@@ -32,13 +32,13 @@ public class DishController {
     @PostMapping(value = "create",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public DishDto createDish(@RequestBody DishDto dishDto) {
-        return dishMapper.mapToDishDto(dishService.saveDish(dishMapper.mapToDish(dishDto)));
+        return dishMapper.mapToDishDto(dishService.saveDish(dishMapper.mapToDish(dishDto,null)));
     }
 
-    @PutMapping(value = "update",
+    @PutMapping(value = "update/{id}",
     consumes = MediaType.APPLICATION_JSON_VALUE)
-    public DishDto updateDish(@RequestBody DishDto dishDto){
-        return dishMapper.mapToDishDto(dishService.saveDish(dishMapper.mapToDish(dishDto)));
+    public DishDto updateDish(@PathVariable Long id, @RequestBody DishDto dishDto){
+        return dishMapper.mapToDishDto(dishService.saveDish(dishMapper.mapToDish(dishDto,id)));
     }
 
     @DeleteMapping(value = "delete/{id}")

@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class DrinkMapper {
 
     public DrinkDto mapToDrinkDto(final Drink drink){
-        return new DrinkDto(drink.getId(),
+        return new DrinkDto(
                 drink.getName(),
                 drink.getDescription(),
                 drink.getPrice(),
@@ -19,8 +19,8 @@ public class DrinkMapper {
                 drink.getMenu());
     }
 
-    public Drink mapToDrink(final DrinkDto drinkDto){
-        return new Drink(drinkDto.getId(),
+    public Drink mapToDrink(final DrinkDto drinkDto, final Long id){
+        return new Drink(id,
                 drinkDto.getName(),
                 drinkDto.getDescription(),
                 drinkDto.getPrice(),

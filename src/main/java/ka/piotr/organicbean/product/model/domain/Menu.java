@@ -18,7 +18,6 @@ import java.util.List;
 public final class Menu {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID",unique = true)
     private Long id;
     @OneToMany(fetch = FetchType.LAZY,
@@ -36,6 +35,23 @@ public final class Menu {
             mappedBy = "menu",
             targetEntity = Product.class)
     private List<Product> productList = new ArrayList<>();
+
+    //    private static MenuDto menuDto = null;
+//
+//    private MenuDto(){}
+//
+//    private MenuDto(List<Dish> dishList, List<Drink> drinkList, List<Product> productList) {
+//        this.dishList = dishList;
+//        this.drinkList = drinkList;
+//        this.productList = productList;
+//    }
+//
+//    public static MenuDto getInstance() {
+//        if (menuDto == null) {
+//            menuDto = new MenuDto(new ArrayList<>(),new ArrayList<>(),new ArrayList<>());
+//        }
+//        return menuDto;
+//    }
 
 
 }
