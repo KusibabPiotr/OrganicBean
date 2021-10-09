@@ -1,7 +1,6 @@
 package ka.piotr.organicbean.product.model.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import ka.piotr.organicbean.product.model.domain.Menu;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,18 +15,11 @@ import java.math.BigDecimal;
 public final class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID",unique = true)
     private Long id;
     @NotNull
-    @Column(name = "NAME")
     private String name;
-    @Column(name = "DESCRIPTION")
     private String description;
     @NotNull
-    @Column(name = "PRICE")
     private BigDecimal price;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PRODUCT_ID")
-    @JsonIgnore
-    private Menu menu;
+
 }

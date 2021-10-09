@@ -14,16 +14,14 @@ public class ProductMapper {
         return new ProductDto(
                 product.getName(),
                 product.getDescription(),
-                product.getPrice(),
-                product.getMenu());
+                product.getPrice());
     }
 
     public Product mapToProduct(final ProductDto productDto,final Long id){
         return new Product(id,
                 productDto.getName(),
                 productDto.getDescription(),
-                productDto.getPrice(),
-                productDto.getMenu());
+                productDto.getPrice());
     }
 
     public List<ProductDto> mapToProductDtoList(final List<Product> productList){

@@ -2,8 +2,6 @@ package ka.piotr.organicbean.security.controller.mapper;
 
 import ka.piotr.organicbean.security.model.domain.User;
 import ka.piotr.organicbean.security.model.dto.UserDto;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
