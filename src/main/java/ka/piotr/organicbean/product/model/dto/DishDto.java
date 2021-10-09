@@ -3,12 +3,12 @@ package ka.piotr.organicbean.product.model.dto;
 import ka.piotr.organicbean.product.model.domain.FoodType;
 import ka.piotr.organicbean.product.model.domain.Menu;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 
 import java.math.BigDecimal;
 
-@Getter
 @AllArgsConstructor
+@Data
 public final class DishDto {
 
     private String name;
@@ -21,3 +21,5 @@ public final class DishDto {
     private FoodType foodType;
     private Menu menu;
 }
+
+

@@ -4,13 +4,12 @@ import ka.piotr.organicbean.product.model.domain.Dish;
 import ka.piotr.organicbean.product.model.domain.Drink;
 import ka.piotr.organicbean.product.model.domain.Product;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 @AllArgsConstructor
+@Data
 public final class MenuDto {
 
     private List<Dish> dishList;

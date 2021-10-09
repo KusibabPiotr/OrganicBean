@@ -1,17 +1,19 @@
 package ka.piotr.organicbean.security.controller;
 
-import ka.piotr.organicbean.security.model.UserDto;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.context.request.WebRequest;
+import ka.piotr.organicbean.security.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
+@RequestMapping("/v1/registration")
+@RequiredArgsConstructor
 public class RegistrationController {
-    @GetMapping("/user/registration")
-    public String showRegistrationForm(WebRequest request, Model model) {
-        UserDto userDto = new UserDto();
-        model.addAttribute("user", userDto);
-        return "registration";
-    }
+
+    public final UserRepository userRepository;
+    public final PasswordEncoder passwordEncoder;
+
 }

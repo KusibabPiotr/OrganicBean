@@ -2,12 +2,12 @@ package ka.piotr.organicbean.product.model.dto;
 
 import ka.piotr.organicbean.product.model.domain.Menu;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 
 import java.math.BigDecimal;
 
 @AllArgsConstructor
-@Getter
+@Data
 public final class ProductDto {
 
     private String name;

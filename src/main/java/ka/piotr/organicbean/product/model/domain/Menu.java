@@ -1,9 +1,6 @@
 package ka.piotr.organicbean.product.model.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,8 +10,7 @@ import java.util.List;
 @Table(name = "MENU")
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 public final class Menu {
 
     @Id

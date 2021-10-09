@@ -2,9 +2,11 @@ package ka.piotr.organicbean;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-public class OrganicBeanApplication {
+public class OrganicBeanApplication{
 
     public static void main(String[] args) {
         SpringApplication.run(OrganicBeanApplication.class, args);

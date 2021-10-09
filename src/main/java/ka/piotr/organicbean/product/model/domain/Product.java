@@ -2,10 +2,7 @@ package ka.piotr.organicbean.product.model.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ka.piotr.organicbean.product.model.domain.Menu;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,8 +12,7 @@ import java.math.BigDecimal;
 @Table(name = "PRODUCTS")
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 public final class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
