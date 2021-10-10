@@ -18,43 +18,16 @@ public class DishService {
         return dishRepository.findAll();
     }
 
-    private List<Dish> getAllGlutenFree() {
-        return dishRepository.findAllByGlutenFree(true);
-    }
-    private List<Dish> getAllVegan() {
-        return dishRepository.findAllByVegan(true);
-    }
-
-    private List<Dish> getAllVegetarian() {
-        return dishRepository.findAllByVegetarian(true);
-    }
-
     public Optional<Dish> getDish(final Long id){
         return dishRepository.findById(id);
     }
 
-    public Dish saveDish(final Dish dish){
+    public Dish createDish(final Dish dish){
         return dishRepository.save(dish);
     }
 
     public void deleteDish(final Long id){
         dishRepository.deleteById(id);
-    }
-
-    private List<Dish> getAllGlutenFreeAndVegetarian() {
-        return dishRepository.findAllByGlutenFreeAndVegetarian(true,true);
-    }
-
-    private List<Dish> getAllGlutenFreeAndVegan() {
-        return dishRepository.findAllByGlutenFreeAndVegan(true,true);
-    }
-
-    private List<Dish> getAllVeganAndVegetarian() {
-        return dishRepository.findAllByVeganAndVegetarian(true,true);
-    }
-
-    private List<Dish> getAllGlutenFreeAndVeganAndVegetarian() {
-        return dishRepository.findAllByGlutenFreeAndVeganAndVegetarian(true,true,true);
     }
 
     public List<Dish> getAllByParams(String params) {
@@ -76,6 +49,34 @@ public class DishService {
         } else if ((split.contains("vegetarian") && split.size() == 1)) {
             return getAllVegetarian();
         } else return getAllGlutenFree();
+    }
+
+    private List<Dish> getAllGlutenFree() {
+        return dishRepository.findAllByGlutenFree(true);
+    }
+
+    private List<Dish> getAllVegan() {
+        return dishRepository.findAllByVegan(true);
+    }
+
+    private List<Dish> getAllVegetarian() {
+        return dishRepository.findAllByVegetarian(true);
+    }
+
+    private List<Dish> getAllGlutenFreeAndVegetarian() {
+        return dishRepository.findAllByGlutenFreeAndVegetarian(true,true);
+    }
+
+    private List<Dish> getAllGlutenFreeAndVegan() {
+        return dishRepository.findAllByGlutenFreeAndVegan(true,true);
+    }
+
+    private List<Dish> getAllVeganAndVegetarian() {
+        return dishRepository.findAllByVeganAndVegetarian(true,true);
+    }
+
+    private List<Dish> getAllGlutenFreeAndVeganAndVegetarian() {
+        return dishRepository.findAllByGlutenFreeAndVeganAndVegetarian(true,true,true);
     }
     }
 

@@ -21,7 +21,6 @@ public class DishController {
 
     @GetMapping(value = "get")
     public List<DishDto> getAllByParams(@RequestParam(value = "allergens",required = false) String params) {
-        System.out.println(params);
         return dishMapper.mapToDishDtoList(dishService.getAllByParams(params));
     }
 
@@ -34,13 +33,13 @@ public class DishController {
     @PostMapping(value = "create",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public DishDto createDish(@RequestBody DishDto dishDto) {
-        return dishMapper.mapToDishDto(dishService.saveDish(dishMapper.mapToDish(dishDto)));
+        return dishMapper.mapToDishDto(dishService.createDish(dishMapper.mapToDish(dishDto)));
     }
 
     @PutMapping(value = "update/{id}",
     consumes = MediaType.APPLICATION_JSON_VALUE)
     public DishDto updateDish(@PathVariable Long id, @RequestBody DishDto dishDto){
-        return dishMapper.mapToDishDto(dishService.saveDish(dishMapper.mapToDish(dishDto)));
+        return dishMapper.mapToDishDto(dishService.createDish(dishMapper.mapToDish(dishDto)));
     }
 
     @DeleteMapping(value = "delete/{id}")
