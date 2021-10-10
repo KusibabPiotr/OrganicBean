@@ -25,11 +25,13 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public Order createOrder(Order order){
+    public Order createOrder(){
 
+        Order order = new Order();
         order.setOrderStatus(OrderStatus.NEW_ORDER);
         order.setDishList(List.of());
         order.setCustomer(null);
+
         return orderRepository.save(order);
     }
 

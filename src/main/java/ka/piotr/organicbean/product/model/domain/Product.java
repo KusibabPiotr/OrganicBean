@@ -1,6 +1,5 @@
 package ka.piotr.organicbean.product.model.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;

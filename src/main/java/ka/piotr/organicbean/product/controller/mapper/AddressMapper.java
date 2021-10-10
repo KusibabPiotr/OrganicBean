@@ -2,7 +2,6 @@ package ka.piotr.organicbean.product.controller.mapper;
 
 import ka.piotr.organicbean.product.model.domain.Address;
 import ka.piotr.organicbean.product.model.dto.AddressDto;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
