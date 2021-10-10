@@ -12,15 +12,10 @@ public class CustomerMapper {
                 customer.getFirstName(),
                 customer.getLastName(),
                 customer.getEmail(),
-                customer.getHouseNumber(),
-                customer.getStreet(),
-                customer.getCity(),
-                customer.getPostCode(),
                 customer.getPhoneNumber(),
+                customer.getAddress(),
                 customer.getOrderList(),
-                customer.getCcNumber(),
-                customer.getCcExpiration(),
-                customer.getCcCVV());
+                customer.getVisaDetails());
     }
 
     public Customer mapToCustomer(final CustomerDto customerDto){
@@ -28,14 +23,9 @@ public class CustomerMapper {
                 customerDto.getFirstName(),
                 customerDto.getLastName(),
                 customerDto.getEmail(),
-                customerDto.getHouseNumber(),
-                customerDto.getStreet(),
-                customerDto.getCity(),
-                customerDto.getPostCode(),
                 customerDto.getPhoneNumber(),
+                customerDto.getAddressDto(),
                 customerDto.getOrderList(),
-                customerDto.getCcNumber(),
-                customerDto.getCcExpiration(),
-                customerDto.getCcCVV());
+                customerDto.getVisaDetailsDto());
     }
 }

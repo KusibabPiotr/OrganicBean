@@ -20,14 +20,11 @@ public class Customer {
     private String firstName;
     private String lastName;
     private String email;
-    private String houseNumber;
-    private String street;
-    private String city;
-    private String postCode;
     private String phoneNumber;
+    @OneToOne
+    private Address address;
     @OneToMany
     private List <Order> orderList;
-    private String ccNumber;
-    private String ccExpiration;
-    private String ccCVV;
+    @OneToOne
+    private VisaDetails visaDetails;
 }
