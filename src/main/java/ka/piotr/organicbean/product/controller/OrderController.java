@@ -5,9 +5,8 @@ import ka.piotr.organicbean.product.model.domain.Order;
 import ka.piotr.organicbean.product.model.dto.OrderDto;
 import ka.piotr.organicbean.product.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,4 +22,13 @@ public class OrderController {
     public List <OrderDto> getAllOrders(){
         return orderMapper.mapToOrderDtoList(orderService.getAllOrders());
     }
+
+    @PostMapping(value = "create",
+                consumes = MediaType.APPLICATION_JSON_VALUE)
+    public OrderDto createOrder(@RequestBody OrderDto orderDto){
+        return orderMapper.mapToOrderDto(orderMapper.mapToOrder(orderDto));
+    }
+
+
+
 }

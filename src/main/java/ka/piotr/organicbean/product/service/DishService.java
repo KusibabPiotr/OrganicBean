@@ -5,8 +5,7 @@ import ka.piotr.organicbean.product.repository.DishRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,15 +18,15 @@ public class DishService {
         return dishRepository.findAll();
     }
 
-    public List<Dish> getAllGlutenFree(boolean isGlutenFree) {
-        return dishRepository.findAllByGlutenFree(isGlutenFree);
+    private List<Dish> getAllGlutenFree() {
+        return dishRepository.findAllByGlutenFree(true);
     }
-    public List<Dish> getAllVegan(boolean isVegan) {
-        return dishRepository.findAllByVegan(isVegan);
+    private List<Dish> getAllVegan() {
+        return dishRepository.findAllByVegan(true);
     }
 
-    public List<Dish> getAllVegetarian(boolean isVegetarian) {
-        return dishRepository.findAllByVegetarian(isVegetarian);
+    private List<Dish> getAllVegetarian() {
+        return dishRepository.findAllByVegetarian(true);
     }
 
     public Optional<Dish> getDish(final Long id){
@@ -42,19 +41,41 @@ public class DishService {
         dishRepository.deleteById(id);
     }
 
-    public List<Dish> getAllGlutenFreeAndVegetarian(boolean isGlutenFree, boolean isVegetarian) {
-        return dishRepository.findAllByGlutenFreeAndVegetarian(isGlutenFree,isVegetarian);
+    private List<Dish> getAllGlutenFreeAndVegetarian() {
+        return dishRepository.findAllByGlutenFreeAndVegetarian(true,true);
     }
 
-    public List<Dish> getAllGlutenFreeAndVegan(boolean isGlutenFree, boolean isVegan) {
-        return dishRepository.findAllByGlutenFreeAndVegan(isGlutenFree, isVegan);
+    private List<Dish> getAllGlutenFreeAndVegan() {
+        return dishRepository.findAllByGlutenFreeAndVegan(true,true);
     }
 
-    public List<Dish> getAllVeganAndVegetarian(boolean isVegan, boolean isVegetarian) {
-        return dishRepository.findAllByVeganAndVegetarian(isVegan,isVegetarian);
+    private List<Dish> getAllVeganAndVegetarian() {
+        return dishRepository.findAllByVeganAndVegetarian(true,true);
     }
 
-    public List<Dish> getAllGlutenFreeAndVeganAndVegetarian(boolean isGlutenFree, boolean isVegan, boolean isVegetarian) {
-        return dishRepository.findAllByGlutenFreeAndVeganAndVegetarian(isGlutenFree,isVegan,isVegetarian);
+    private List<Dish> getAllGlutenFreeAndVeganAndVegetarian() {
+        return dishRepository.findAllByGlutenFreeAndVeganAndVegetarian(true,true,true);
     }
-}
+
+    public List<Dish> getAllByParams(String params) {
+        if (params == null) {
+            return getAllDishes();
+        }
+        Set<String> split = Set.of(params.split(","));
+
+        if (split.contains("vegan") && split.contains("vegetarian") && split.contains("glutenFree")) {
+            return getAllGlutenFreeAndVeganAndVegetarian();
+        }  else if (split.contains("glutenFree") && split.contains("vegetarian")) {
+            return getAllGlutenFreeAndVegetarian();
+        } else if (split.contains("glutenFree") && split.contains("vegan")) {
+            return getAllGlutenFreeAndVegan();
+        } else if (split.contains("vegan") && split.contains("vegetarian")) {
+            return getAllVeganAndVegetarian();
+        } else if (split.contains("vegan") && split.size() == 1) {
+            return getAllVegan();
+        } else if ((split.contains("vegetarian") && split.size() == 1)) {
+            return getAllVegetarian();
+        } else return getAllGlutenFree();
+    }
+    }
+

@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/v1/dishes")
@@ -18,50 +19,11 @@ public class DishController {
     private final DishService dishService;
     private final DishMapper dishMapper;
 
-    @GetMapping(value = "getAll")
-    public List<DishDto> getAll(){
-       return dishMapper.mapToDishDtoList(dishService.getAllDishes());
+    @GetMapping(value = "get")
+    public List<DishDto> getAllByParams(@RequestParam(value = "allergens",required = false) String params) {
+        System.out.println(params);
+        return dishMapper.mapToDishDtoList(dishService.getAllByParams(params));
     }
-
-    @GetMapping(value = "getAllGlutenFree")
-    public List<DishDto> getAllGlutenFree(@RequestParam boolean isGlutenFree){
-        return dishMapper.mapToDishDtoList(dishService.getAllGlutenFree(isGlutenFree));
-    }
-
-    @GetMapping(value = "getAllVegan")
-    public List<DishDto> getAllVegan(@RequestParam boolean isVegan){
-        return dishMapper.mapToDishDtoList(dishService.getAllVegan(isVegan));
-    }
-
-    @GetMapping(value = "getAllVegetarian")
-    public List<DishDto> getAllVegetarian(@RequestParam boolean isVegetarian){
-        return dishMapper.mapToDishDtoList(dishService.getAllVegetarian(isVegetarian));
-    }
-
-    @GetMapping(value = "getAllGlutenFreeAndVegan")
-    public List<DishDto> getAllGlutenFreeAndVegan(@RequestParam boolean isGlutenFree,
-                                                  @RequestParam boolean isVegan){
-        return dishMapper.mapToDishDtoList(dishService.getAllGlutenFreeAndVegan(isGlutenFree, isVegan));
-    }
-
-    @GetMapping(value = "getAllGlutenFreeAndVegetarian")
-    public List<DishDto> getAllGlutenFreeAndVegetarian(@RequestParam boolean isGlutenFree,
-                                          @RequestParam boolean isVegetarian){
-        return dishMapper.mapToDishDtoList(dishService.getAllGlutenFreeAndVegetarian(isGlutenFree, isVegetarian));
-    }
-    @GetMapping(value = "getAllVeganAndVegetarian")
-    public List<DishDto> getAllVeganAndVegetarian(@RequestParam boolean isVegan,
-                                                  @RequestParam boolean isVegetarian){
-        return dishMapper.mapToDishDtoList(dishService.getAllVeganAndVegetarian(isVegan, isVegetarian));
-    }
-
-    @GetMapping(value = "getAllGlutenFreeAndVeganAndVegetarian")
-    public List<DishDto> getAllGlutenFreeAndVeganAndVegetarian(@RequestParam boolean isGlutenFree,
-                                                  @RequestParam boolean isVegan,
-                                                  @RequestParam boolean isVegetarian){
-        return dishMapper.mapToDishDtoList(dishService.getAllGlutenFreeAndVeganAndVegetarian(isGlutenFree, isVegan, isVegetarian));
-    }
-
 
     @GetMapping(value = "get/{id}")
     public DishDto getDish(@PathVariable Long id) throws DishNotFoundException {

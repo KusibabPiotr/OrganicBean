@@ -18,4 +18,5 @@ public class OrderDto {
     private List<Dish> dishList;
     private Customer customer;
     private OrderStatus orderStatus;
+
 }

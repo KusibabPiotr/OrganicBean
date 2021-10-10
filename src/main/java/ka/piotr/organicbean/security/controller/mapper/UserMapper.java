@@ -7,19 +7,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
 
-    public User mapToUser(final UserDto userDto, final Long id){
-        return new User(id,
-                userDto.getFirstName(),
-                userDto.getLastName(),
-                userDto.getUsername(),
-                userDto.getPassword(),
-                userDto.getEmail(),
-                userDto.getStreet(),
-                userDto.getCity(),
-                userDto.getState(),
-                userDto.getZip(),
-                userDto.getPhoneNumber());
-    }
+//    public User mapToUser(final UserDto userDto, final Long id){
+//        return new User(id,
+//                userDto.getFirstName(),
+//                userDto.getLastName(),
+//                userDto.getUsername(),
+//                userDto.getPassword(),
+//                userDto.getEmail(),
+//                userDto.getStreet(),
+//                userDto.getCity(),
+//                userDto.getState(),
+//                userDto.getZip(),
+//                userDto.getPhoneNumber());
+//    }
     public UserDto mapToUserDto(final User user){
         return new UserDto(
                 user.getFirstName(),
