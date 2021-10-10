@@ -19,7 +19,6 @@ public class CustomerMapper {
                 customer.getEmail(),
                 customer.getPhoneNumber(),
                 addressMapper.mapToAddressDto(customer.getAddress()),
-                customer.getOrderList(),
                 visaDetailsMapper.mapToVisaDetailsDto(customer.getVisaDetails()));
     }
 
@@ -30,7 +29,6 @@ public class CustomerMapper {
                 customerDto.getEmail(),
                 customerDto.getPhoneNumber(),
                 addressMapper.mapToAddress(customerDto.getAddressDto()),
-                customerDto.getOrderList(),
                 visaDetailsMapper.mapToVisaDetails(customerDto.getVisaDetailsDto()));
     }
 }

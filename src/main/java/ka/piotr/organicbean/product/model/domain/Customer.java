@@ -21,10 +21,8 @@ public class Customer {
     private String lastName;
     private String email;
     private String phoneNumber;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
-    @OneToMany
-    private List <Order> orderList;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private VisaDetails visaDetails;
 }

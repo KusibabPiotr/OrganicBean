@@ -16,6 +16,5 @@ public class CustomerDto {
     private String email;
     private String phoneNumber;
     private AddressDto addressDto;
-    private List <Order> orderList;
     private VisaDetailsDto visaDetailsDto;
 }
