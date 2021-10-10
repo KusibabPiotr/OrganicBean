@@ -38,8 +38,7 @@ public class OrderController {
         return orderMapper.mapToOrderDto(orderService.createOrder(orderMapper.mapToOrder(orderDto)));
     }
 
-    @PatchMapping(value = "update/{id}",
-            consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "update/{id}")
     public OrderDto addDishToOrder(@PathVariable("id") Long orderId, @RequestParam Long dishId)
             throws DishNotFoundException,OrderNotFoundException{
         return orderMapper.mapToOrderDto(orderService.addDishToOrder(orderId,dishId));
