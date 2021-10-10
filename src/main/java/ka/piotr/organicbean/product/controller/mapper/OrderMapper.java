@@ -24,6 +24,13 @@ public class OrderMapper {
                 orderDto.getOrderStatus());
     }
 
+    public Order mapToOrder(final OrderDto orderDto, final Long id){
+        return new Order(id,
+                orderDto.getDishList(),
+                orderDto.getCustomer(),
+                orderDto.getOrderStatus());
+    }
+
     public List <OrderDto> mapToOrderDtoList(final List <Order> orderList){
         return orderList.stream()
                 .map(this::mapToOrderDto)

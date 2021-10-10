@@ -39,7 +39,7 @@ public class DishController {
     @PutMapping(value = "update/{id}",
     consumes = MediaType.APPLICATION_JSON_VALUE)
     public DishDto updateDish(@PathVariable Long id, @RequestBody DishDto dishDto){
-        return dishMapper.mapToDishDto(dishService.createDish(dishMapper.mapToDish(dishDto)));
+        return dishMapper.mapToDishDto(dishService.createDish(dishMapper.mapToDish(dishDto,id)));
     }
 
     @DeleteMapping(value = "delete/{id}")

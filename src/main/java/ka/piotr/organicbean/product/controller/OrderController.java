@@ -38,12 +38,16 @@ public class OrderController {
         return orderMapper.mapToOrderDto(orderService.createOrder(orderMapper.mapToOrder(orderDto)));
     }
 
-    @PatchMapping(value = "update/{id}")
+    @PatchMapping(value = "partialUpdate/{id}")
     public OrderDto addDishToOrder(@PathVariable("id") Long orderId, @RequestParam Long dishId)
             throws DishNotFoundException,OrderNotFoundException{
         return orderMapper.mapToOrderDto(orderService.addDishToOrder(orderId,dishId));
     }
 
+    @PutMapping(value = "update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public OrderDto updateOrder(@RequestBody OrderDto orderDto, @PathVariable Long id){
+        return orderMapper.mapToOrderDto(orderService.updateOrder(orderMapper.mapToOrder(orderDto,id)));
+    }
 
 
 }

@@ -22,6 +22,18 @@ public class DishMapper {
                 dishDto.getDishType());
     }
 
+    public Dish mapToDish(final DishDto dishDto,final Long id){
+        return new Dish(id,
+                dishDto.getName(),
+                dishDto.getDescription(),
+                dishDto.getPrice(),
+                dishDto.getKcal(),
+                dishDto.isGlutenFree(),
+                dishDto.isVegan(),
+                dishDto.isVegetarian(),
+                dishDto.getDishType());
+    }
+
     public DishDto mapToDishDto(final Dish dish){
         return new DishDto(dish.getId(),
                 dish.getName(),
@@ -33,6 +45,8 @@ public class DishMapper {
                 dish.isVegetarian(),
                 dish.getDishType());
     }
+
+
 
     public List<DishDto> mapToDishDtoList(final List<Dish> dishes){
         return dishes.stream()
