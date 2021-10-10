@@ -3,6 +3,7 @@ package ka.piotr.organicbean.product.service;
 import ka.piotr.organicbean.product.exceptions.DishNotFoundException;
 import ka.piotr.organicbean.product.exceptions.OrderNotFoundException;
 import ka.piotr.organicbean.product.model.OrderStatus;
+import ka.piotr.organicbean.product.model.domain.Customer;
 import ka.piotr.organicbean.product.model.domain.Dish;
 import ka.piotr.organicbean.product.model.domain.Order;
 import ka.piotr.organicbean.product.repository.DishRepository;
@@ -25,6 +26,7 @@ public class OrderService {
     }
 
     public Order createOrder(Order order){
+
         order.setOrderStatus(OrderStatus.NEW_ORDER);
         order.setDishList(List.of());
         order.setCustomer(null);
@@ -37,14 +39,47 @@ public class OrderService {
 
     public Order addDishToOrder(Long orderId, Long dishId)
             throws DishNotFoundException, OrderNotFoundException{
-        Dish dish = dishRepository.findById(dishId).orElseThrow(DishNotFoundException::new);
-        Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFoundException::new);
+
+        Dish dish = dishRepository.findById(dishId)
+                .orElseThrow(DishNotFoundException::new);
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(OrderNotFoundException::new);
+
         order.getDishList().add(dish);
         return orderRepository.save(order);
     }
 
+    public Order addCustomerToOrder(Long id, Customer customer)
+            throws OrderNotFoundException {
+
+        Order order = orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
+        order.setCustomer(customer);
+
+        return orderRepository.save(order);
+    }
+
+    public void removeDishFromOrder(Long orderId, Long dishId)
+            throws OrderNotFoundException, DishNotFoundException {
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(OrderNotFoundException::new);
+
+        Dish dish = order.getDishList().stream()
+                .filter(e -> e.getId().equals(dishId))
+                .findFirst()
+                .orElseThrow(DishNotFoundException::new);
+
+        order.getDishList().remove(dish);
+        orderRepository.save(order);
+    }
+
     public Order updateOrder(Order order){
         return orderRepository.save(order);
+    }
+
+    public void deleteOrder(Long id){
+        orderRepository.deleteById(id);
     }
 
 

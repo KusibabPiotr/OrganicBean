@@ -21,7 +21,7 @@ public class Order {
     @OneToMany(fetch = FetchType.EAGER,
                 cascade = CascadeType.ALL)
     private List <Dish> dishList;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Customer customer;
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
