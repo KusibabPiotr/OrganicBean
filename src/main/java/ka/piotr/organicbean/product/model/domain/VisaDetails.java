@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Table(name = "VISAS_DETAILS")
 @AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
 @Data
 public class VisaDetails {
 

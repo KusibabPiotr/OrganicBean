@@ -2,10 +2,15 @@ package ka.piotr.organicbean.product.controller.mapper;
 
 import ka.piotr.organicbean.product.model.domain.Customer;
 import ka.piotr.organicbean.product.model.dto.CustomerDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class CustomerMapper {
+
+    private final AddressMapper addressMapper;
+    private final VisaDetailsMapper visaDetailsMapper;
 
     public CustomerDto mapToCustomerDto(final Customer customer){
         return new CustomerDto(customer.getId(),
@@ -13,9 +18,9 @@ public class CustomerMapper {
                 customer.getLastName(),
                 customer.getEmail(),
                 customer.getPhoneNumber(),
-                customer.getAddress(),
+                addressMapper.mapToAddressDto(customer.getAddress()),
                 customer.getOrderList(),
-                customer.getVisaDetails());
+                visaDetailsMapper.mapToVisaDetailsDto(customer.getVisaDetails()));
     }
 
     public Customer mapToCustomer(final CustomerDto customerDto){
@@ -24,8 +29,8 @@ public class CustomerMapper {
                 customerDto.getLastName(),
                 customerDto.getEmail(),
                 customerDto.getPhoneNumber(),
-                customerDto.getAddressDto(),
+                addressMapper.mapToAddress(customerDto.getAddressDto()),
                 customerDto.getOrderList(),
-                customerDto.getVisaDetailsDto());
+                visaDetailsMapper.mapToVisaDetails(customerDto.getVisaDetailsDto()));
     }
 }
