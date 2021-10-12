@@ -4,9 +4,12 @@ import ka.piotr.organicbean.product.model.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "ORDERS")
@@ -18,10 +21,14 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany(fetch = FetchType.EAGER,
-                cascade = CascadeType.ALL)
-    private List <Dish> dishList;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.PERSIST)
+//    @BatchSize(size = 5)
+    @JoinTable(name = "DISHES_ORDERS",
+    joinColumns = {@JoinColumn(name = "order_id",referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "dish_ID",referencedColumnName = "id")})
+    private Set<Dish> dishList = new HashSet<>();
+    @ManyToOne(cascade = CascadeType.ALL,
+                fetch = FetchType.LAZY)
     private Customer customer;
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
