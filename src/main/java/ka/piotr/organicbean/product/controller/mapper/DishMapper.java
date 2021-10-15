@@ -16,9 +16,7 @@ public class DishMapper {
                 dishDto.getDescription(),
                 dishDto.getPrice(),
                 dishDto.getKcal(),
-                dishDto.isGlutenFree(),
-                dishDto.isVegan(),
-                dishDto.isVegetarian(),
+                dishDto.getAllergenType(),
                 dishDto.getDishType());
     }
 
@@ -28,9 +26,7 @@ public class DishMapper {
                 dishDto.getDescription(),
                 dishDto.getPrice(),
                 dishDto.getKcal(),
-                dishDto.isGlutenFree(),
-                dishDto.isVegan(),
-                dishDto.isVegetarian(),
+                dishDto.getAllergenType(),
                 dishDto.getDishType());
     }
 
@@ -40,9 +36,7 @@ public class DishMapper {
                 dish.getDescription(),
                 dish.getPrice(),
                 dish.getKcal(),
-                dish.isGlutenFree(),
-                dish.isVegan(),
-                dish.isVegetarian(),
+                dish.getAllergenType(),
                 dish.getDishType());
     }
 

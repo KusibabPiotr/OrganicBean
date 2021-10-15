@@ -1,5 +1,6 @@
 package ka.piotr.organicbean.product.model.dto;
 
+import ka.piotr.organicbean.product.model.AllergenType;
 import ka.piotr.organicbean.product.model.DishType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,9 +16,10 @@ public final class DishDto {
     private String description;
     private BigDecimal price;
     private int kcal;
-    private boolean glutenFree;
-    private boolean vegan;
-    private boolean vegetarian;
+//    private boolean glutenFree;
+//    private boolean vegan;
+//    private boolean vegetarian;
+    private AllergenType allergenType;
     private DishType dishType;
 }
 

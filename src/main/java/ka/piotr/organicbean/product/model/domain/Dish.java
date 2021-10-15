@@ -1,5 +1,6 @@
 package ka.piotr.organicbean.product.model.domain;
 
+import ka.piotr.organicbean.product.model.AllergenType;
 import ka.piotr.organicbean.product.model.DishType;
 import lombok.*;
 
@@ -25,9 +26,11 @@ public final class Dish {
     private BigDecimal price;
     @NotNull
     private int kcal;
-    private boolean glutenFree;
-    private boolean vegan;
-    private boolean vegetarian;
+//    private boolean glutenFree;
+//    private boolean vegan;
+//    private boolean vegetarian;
+    @Enumerated(value = EnumType.STRING)
+    private AllergenType allergenType;
     @NotNull
     @Enumerated(EnumType.STRING)
     private DishType dishType;

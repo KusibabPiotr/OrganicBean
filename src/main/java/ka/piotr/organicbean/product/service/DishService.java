@@ -1,5 +1,6 @@
 package ka.piotr.organicbean.product.service;
 
+import ka.piotr.organicbean.product.model.AllergenType;
 import ka.piotr.organicbean.product.model.domain.Dish;
 import ka.piotr.organicbean.product.repository.DishRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,52 +31,24 @@ public class DishService {
     }
 
     public List<Dish> getAllByParams(String params) {
-        if (params == null) {
+        if (params == null || params.contains("none")) {
             return getAllDishes();
         }
         Set<String> split = Set.of(params.split(","));
 
         if (split.contains("vegan") && split.contains("vegetarian") && split.contains("glutenFree")) {
-            return getAllGlutenFreeAndVeganAndVegetarian();
+            return dishRepository.findAllByAllergenType(AllergenType.GLUTEN_FREE_VEGAN_VEGETARIAN);
         }  else if (split.contains("glutenFree") && split.contains("vegetarian")) {
-            return getAllGlutenFreeAndVegetarian();
+            return dishRepository.findAllByAllergenType(AllergenType.GLUTEN_FREE_VEGETARIAN);
         } else if (split.contains("glutenFree") && split.contains("vegan")) {
-            return getAllGlutenFreeAndVegan();
+            return dishRepository.findAllByAllergenType(AllergenType.GLUTEN_FREE_VEGAN);
         } else if (split.contains("vegan") && split.contains("vegetarian")) {
-            return getAllVeganAndVegetarian();
+            return dishRepository.findAllByAllergenType(AllergenType.VEGAN_VEGETARIAN);
         } else if (split.contains("vegan") && split.size() == 1) {
-            return getAllVegan();
+            return dishRepository.findAllByAllergenType(AllergenType.VEGAN);
         } else if ((split.contains("vegetarian") && split.size() == 1)) {
-            return getAllVegetarian();
-        } else return getAllGlutenFree();
-    }
-
-    private List<Dish> getAllGlutenFree() {
-        return dishRepository.findAllByGlutenFree(true);
-    }
-
-    private List<Dish> getAllVegan() {
-        return dishRepository.findAllByVegan(true);
-    }
-
-    private List<Dish> getAllVegetarian() {
-        return dishRepository.findAllByVegetarian(true);
-    }
-
-    private List<Dish> getAllGlutenFreeAndVegetarian() {
-        return dishRepository.findAllByGlutenFreeAndVegetarian(true,true);
-    }
-
-    private List<Dish> getAllGlutenFreeAndVegan() {
-        return dishRepository.findAllByGlutenFreeAndVegan(true,true);
-    }
-
-    private List<Dish> getAllVeganAndVegetarian() {
-        return dishRepository.findAllByVeganAndVegetarian(true,true);
-    }
-
-    private List<Dish> getAllGlutenFreeAndVeganAndVegetarian() {
-        return dishRepository.findAllByGlutenFreeAndVeganAndVegetarian(true,true,true);
+            return dishRepository.findAllByAllergenType(AllergenType.VEGAN_VEGETARIAN);
+        } else return dishRepository.findAllByAllergenType(AllergenType.GLUTEN_FREE);
     }
     }
 
