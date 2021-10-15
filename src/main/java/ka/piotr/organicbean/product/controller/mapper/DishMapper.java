@@ -2,13 +2,17 @@ package ka.piotr.organicbean.product.controller.mapper;
 
 import ka.piotr.organicbean.product.model.domain.Dish;
 import ka.piotr.organicbean.product.model.dto.DishDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class DishMapper {
+
+    private final AllergenMapper allergenMapper;
 
     public Dish mapToDish(final DishDto dishDto){
         return new Dish(dishDto.getId(),
@@ -16,7 +20,7 @@ public class DishMapper {
                 dishDto.getDescription(),
                 dishDto.getPrice(),
                 dishDto.getKcal(),
-                dishDto.getAllergenType(),
+                allergenMapper.mapToAllergenSet(dishDto.getAllergens()),
                 dishDto.getDishType());
     }
 
@@ -26,7 +30,7 @@ public class DishMapper {
                 dishDto.getDescription(),
                 dishDto.getPrice(),
                 dishDto.getKcal(),
-                dishDto.getAllergenType(),
+                allergenMapper.mapToAllergenSet(dishDto.getAllergens()),
                 dishDto.getDishType());
     }
 
@@ -36,7 +40,7 @@ public class DishMapper {
                 dish.getDescription(),
                 dish.getPrice(),
                 dish.getKcal(),
-                dish.getAllergenType(),
+                allergenMapper.mapToAllergenDtoSet(dish.getAllergens()),
                 dish.getDishType());
     }
 

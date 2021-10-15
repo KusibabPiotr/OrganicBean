@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.web.context.annotation.SessionScope;
 
-import java.util.Set;
+import java.util.List;
 
 @AllArgsConstructor
 @Data
@@ -15,7 +15,7 @@ import java.util.Set;
 public class OrderDto {
 
     private Long id;
-    private Set<Dish> dishes;
+    private List<Dish> dishes;
     private Customer customer;
     private OrderStatus orderStatus;
 

@@ -7,6 +7,8 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "DISHES")
@@ -26,11 +28,10 @@ public final class Dish {
     private BigDecimal price;
     @NotNull
     private int kcal;
-//    private boolean glutenFree;
-//    private boolean vegan;
-//    private boolean vegetarian;
-    @Enumerated(value = EnumType.STRING)
-    private AllergenType allergenType;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    private Set <Allergen> allergens = new HashSet<>();
+
     @NotNull
     @Enumerated(EnumType.STRING)
     private DishType dishType;
