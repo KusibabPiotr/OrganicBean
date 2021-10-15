@@ -21,18 +21,14 @@ public final class Dish {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
     private Long id;
-    @NotNull
     private String name;
     private String description;
-    @NotNull
     private BigDecimal price;
-    @NotNull
     private int kcal;
 
     @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     private Set <Allergen> allergens = new HashSet<>();
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     private DishType dishType;
 
