@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +30,7 @@ public class OrderService {
 
         Order order = new Order();
         order.setOrderStatus(OrderStatus.NEW_ORDER);
-        order.setDishList(List.of());
+        order.setDishes(Set.of());
         order.setCustomer(null);
 
         return orderRepository.save(order);
@@ -48,7 +49,7 @@ public class OrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(OrderNotFoundException::new);
 
-        order.getDishList().add(dish);
+        order.getDishes().add(dish);
         return orderRepository.save(order);
     }
 
@@ -67,12 +68,12 @@ public class OrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(OrderNotFoundException::new);
 
-        Dish dish = order.getDishList().stream()
+        Dish dish = order.getDishes().stream()
                 .filter(e -> e.getId().equals(dishId))
                 .findFirst()
                 .orElseThrow(DishNotFoundException::new);
 
-        order.getDishList().remove(dish);
+        order.getDishes().remove(dish);
         orderRepository.save(order);
     }
 

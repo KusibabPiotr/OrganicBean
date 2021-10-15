@@ -11,10 +11,12 @@ import java.math.BigDecimal;
 @Table(name = "DISHES")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 public final class Dish {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     private Long id;
     @NotNull
     private String name;
@@ -29,4 +31,19 @@ public final class Dish {
     @NotNull
     @Enumerated(EnumType.STRING)
     private DishType dishType;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Dish dish = (Dish) o;
+
+        return id.equals(dish.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }

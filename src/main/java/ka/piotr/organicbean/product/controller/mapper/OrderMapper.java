@@ -12,21 +12,21 @@ public class OrderMapper {
 
     public OrderDto mapToOrderDto(final Order order){
         return new OrderDto(order.getId(),
-                order.getDishList(),
+                order.getDishes(),
                 order.getCustomer(),
                 order.getOrderStatus());
     }
 
     public Order mapToOrder(final OrderDto orderDto){
         return new Order(orderDto.getId(),
-                orderDto.getDishList(),
+                orderDto.getDishes(),
                 orderDto.getCustomer(),
                 orderDto.getOrderStatus());
     }
 
     public Order mapToOrder(final OrderDto orderDto, final Long id){
         return new Order(id,
-                orderDto.getDishList(),
+                orderDto.getDishes(),
                 orderDto.getCustomer(),
                 orderDto.getOrderStatus());
     }

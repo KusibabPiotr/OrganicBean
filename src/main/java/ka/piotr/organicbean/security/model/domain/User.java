@@ -1,25 +1,21 @@
 package ka.piotr.organicbean.security.model.domain;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.Arrays;
-import java.util.Collection;
+import javax.validation.constraints.NotNull;
 
 @Entity(name = "USERS")
 @NoArgsConstructor
-
-@Data
+@AllArgsConstructor
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     private Long id;
 
     private String firstName;
@@ -33,7 +29,22 @@ public class User {
     private String zip;
     private String phoneNumber;
 
-//    @Override
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        return id.equals(user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    //    @Override
 //    public Collection<? extends GrantedAuthority> getAuthorities() {
 //        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
 //    }
