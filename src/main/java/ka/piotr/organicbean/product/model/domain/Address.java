@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "ADDRESSES")
@@ -19,7 +18,8 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String houseNumber;
+    private int flatNumber;
+    private int houseNumber;
     private String street;
     private String city;
     private String postCode;

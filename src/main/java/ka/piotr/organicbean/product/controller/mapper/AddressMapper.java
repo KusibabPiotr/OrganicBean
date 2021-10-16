@@ -9,6 +9,7 @@ public class AddressMapper {
 
     public Address mapToAddress(final AddressDto addressDto){
         return new Address(addressDto.getId(),
+                addressDto.getFlatNumber(),
                 addressDto.getHouseNumber(),
                 addressDto.getStreet(),
                 addressDto.getCity(),
@@ -17,6 +18,7 @@ public class AddressMapper {
 
     public AddressDto mapToAddressDto(final Address address){
         return new AddressDto(address.getId(),
+                address.getFlatNumber(),
                 address.getHouseNumber(),
                 address.getStreet(),
                 address.getCity(),

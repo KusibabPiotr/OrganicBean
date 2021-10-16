@@ -8,10 +8,16 @@ import ka.piotr.organicbean.product.model.dto.CustomerDto;
 import ka.piotr.organicbean.product.model.dto.OrderDto;
 import ka.piotr.organicbean.product.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/v1/orders")
@@ -46,13 +52,13 @@ public class OrderController {
 
     @PatchMapping(value = "{orderId}/addCustomer",
                 consumes = MediaType.APPLICATION_JSON_VALUE)
-    public OrderDto addCustomerToOrder(@PathVariable Long orderId, @RequestBody CustomerDto customerDto )
+    public OrderDto addCustomerToOrder(@PathVariable Long orderId, @RequestBody @Valid CustomerDto customerDto )
             throws OrderNotFoundException {
         return orderMapper.mapToOrderDto(orderService.addCustomerToOrder(orderId,customerMapper.mapToCustomer(customerDto)));
     }
 
     @PutMapping(value = "update/{orderId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public OrderDto updateOrder(@RequestBody OrderDto orderDto, @PathVariable Long orderId){
+    public OrderDto updateOrder(@RequestBody @Valid OrderDto orderDto, @PathVariable Long orderId){
         return orderMapper.mapToOrderDto(orderService.updateOrder(orderMapper.mapToOrder(orderDto,orderId)));
     }
 
@@ -65,6 +71,19 @@ public class OrderController {
     public void removeDishFromOrder(@PathVariable Long orderId, @RequestParam Long dishId)
             throws OrderNotFoundException, DishNotFoundException {
         orderService.removeDishFromOrder(orderId,dishId);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExceptions(
+            MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return errors;
     }
 
 }

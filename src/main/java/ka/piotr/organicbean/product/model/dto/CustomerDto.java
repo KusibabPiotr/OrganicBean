@@ -1,9 +1,10 @@
 package ka.piotr.organicbean.product.model.dto;
 
+import ka.piotr.organicbean.product.validation.ValidPhoneNumber;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import javax.validation.constraints.Digits;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -20,10 +21,12 @@ public class CustomerDto {
     @Email(message = "Provide right email format!")
     @NotBlank(message = "Email is mandatory!")
     private String email;
-
+    @ValidPhoneNumber
     private String phoneNumber;
     @NotNull
+    @Valid
     private AddressDto addressDto;
     @NotNull
+    @Valid
     private VisaDetailsDto visaDetailsDto;
 }
