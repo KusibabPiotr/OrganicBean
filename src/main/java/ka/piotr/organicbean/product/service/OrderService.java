@@ -13,6 +13,7 @@ import ka.piotr.organicbean.product.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +35,7 @@ public class OrderService {
         order.setOrderStatus(OrderStatus.NEW_ORDER);
         order.setDishes(List.of());
         order.setCustomer(null);
+        order.setTotal(BigDecimal.ZERO);
 
         return orderRepository.save(order);
     }
@@ -51,6 +53,7 @@ public class OrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(OrderNotFoundException::new);
 
+        order.setTotal(order.getTotal().add(dish.getPrice()));
         order.getDishes().add(dish);
         return orderRepository.save(order);
     }
@@ -76,6 +79,7 @@ public class OrderService {
                 .orElseThrow(DishNotFoundException::new);
 
         order.getDishes().remove(dish);
+        order.setTotal(order.getTotal().subtract(dish.getPrice()));
         orderRepository.save(order);
     }
 

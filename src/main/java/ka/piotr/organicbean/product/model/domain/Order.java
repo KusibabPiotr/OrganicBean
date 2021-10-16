@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class Order {
     private Customer customer;
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
+    private BigDecimal total;
 
     @Override
     public boolean equals(Object o) {

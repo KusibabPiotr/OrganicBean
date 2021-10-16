@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.web.context.annotation.SessionScope;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @AllArgsConstructor
@@ -18,5 +19,6 @@ public class OrderDto {
     private List<Dish> dishes;
     private Customer customer;
     private OrderStatus orderStatus;
+    private BigDecimal total;
 
 }
