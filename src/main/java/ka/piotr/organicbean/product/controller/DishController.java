@@ -2,6 +2,7 @@ package ka.piotr.organicbean.product.controller;
 
 import ka.piotr.organicbean.product.controller.mapper.DishMapper;
 import ka.piotr.organicbean.product.exceptions.DishNotFoundException;
+import ka.piotr.organicbean.product.exceptions.NoSuchAllergenTypeException;
 import ka.piotr.organicbean.product.model.dto.DishDto;
 import ka.piotr.organicbean.product.service.DishService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,12 @@ public class DishController {
     @GetMapping(value = "get")
     public List<DishDto> getAllByParams(@RequestParam(value = "allergens",required = false) String params) {
         return dishMapper.mapToDishDtoList(dishService.getAllByParams(params));
+    }
+
+    @GetMapping(value = "get2")
+    public List<DishDto> getAllByParams2(@RequestParam(value = "allergens",required = false) String params)
+            throws NoSuchAllergenTypeException {
+        return dishMapper.mapToDishDtoList(dishService.getAllByParams2(params));
     }
 
     @GetMapping(value = "get/{dishId}")
