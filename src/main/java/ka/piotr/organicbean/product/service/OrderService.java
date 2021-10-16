@@ -1,11 +1,13 @@
 package ka.piotr.organicbean.product.service;
 
+import ka.piotr.organicbean.product.exceptions.CustomerNotFoundException;
 import ka.piotr.organicbean.product.exceptions.DishNotFoundException;
 import ka.piotr.organicbean.product.exceptions.OrderNotFoundException;
 import ka.piotr.organicbean.product.model.OrderStatus;
 import ka.piotr.organicbean.product.model.domain.Customer;
 import ka.piotr.organicbean.product.model.domain.Dish;
 import ka.piotr.organicbean.product.model.domain.Order;
+import ka.piotr.organicbean.product.repository.CustomerRepository;
 import ka.piotr.organicbean.product.repository.DishRepository;
 import ka.piotr.organicbean.product.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final DishRepository dishRepository;
+    private final CustomerRepository customerRepository;
 
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
@@ -76,6 +79,16 @@ public class OrderService {
         orderRepository.save(order);
     }
 
+    public void removeCustomerFromOrder(Long orderId)
+            throws OrderNotFoundException {
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(OrderNotFoundException::new);
+
+        order.setCustomer(null);
+        orderRepository.save(order);
+    }
+
     public Order updateOrder(Order order){
         return orderRepository.save(order);
     }
@@ -83,6 +96,5 @@ public class OrderService {
     public void deleteOrder(Long id){
         orderRepository.deleteById(id);
     }
-
 
 }

@@ -72,6 +72,11 @@ public class OrderController {
             throws OrderNotFoundException, DishNotFoundException {
         orderService.removeDishFromOrder(orderId,dishId);
     }
+    @DeleteMapping(value = "{orderId}/removeCustomer")
+    public void removeCustomerFromOrder(@PathVariable Long orderId)
+            throws OrderNotFoundException {
+        orderService.removeCustomerFromOrder(orderId);
+    }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)

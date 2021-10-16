@@ -22,12 +22,12 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "DISHES_ORDERS",
     joinColumns = {@JoinColumn(name = "order_id",referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "dish_ID",referencedColumnName = "id")})
     private List<Dish> dishes = new ArrayList<>();
-    @ManyToOne(cascade = CascadeType.ALL,
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST},
                 fetch = FetchType.LAZY)
     private Customer customer;
     @Enumerated(EnumType.STRING)
