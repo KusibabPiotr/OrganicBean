@@ -15,12 +15,13 @@ public class DishSpecification implements Specification<Dish> {
         this.searchCriteriaList = new ArrayList<>();
     }
 
-    public void add(SearchCriteria criteria){
+    public void addSearchCriteria(SearchCriteria criteria) {
         searchCriteriaList.add(criteria);
     }
 
     @Override
     public Predicate toPredicate(Root<Dish> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+
         List<Predicate> predicates = new ArrayList<>();
 
         for (SearchCriteria criteria : searchCriteriaList) {

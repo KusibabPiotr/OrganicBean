@@ -24,7 +24,6 @@ dependencies {
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
 //    testImplementation 'org.springframework.security:spring-security-test'
 //    implementation 'org.springframework.boot:spring-boot-starter-security'
-    annotationProcessor 'org.hibernate:hibernate-jpamodelgen'
 }
 
 test {
