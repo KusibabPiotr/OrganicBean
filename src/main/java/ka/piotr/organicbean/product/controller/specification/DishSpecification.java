@@ -1,6 +1,5 @@
 package ka.piotr.organicbean.product.controller.specification;
 
-import ka.piotr.organicbean.product.model.domain.Allergen;
 import ka.piotr.organicbean.product.model.domain.Dish;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -88,8 +87,6 @@ public class DishSpecification implements Specification<Dish> {
                         builder.not(
                                 root.get(criteria.getKey())
                         ).in(criteria.getValue()));
-            } else {
-
             }
         }
 

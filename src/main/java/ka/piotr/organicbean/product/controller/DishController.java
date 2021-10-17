@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -20,14 +21,18 @@ public class DishController {
     private final DishMapper dishMapper;
 
     @GetMapping(value = "get")
-    public List<DishDto> getAllByParams(@RequestParam(value = "allergens",required = false) String params) {
+    public List<DishDto> getAllByParams(@RequestParam(value = "allergens",required = false) String params)
+            throws NoSuchAllergenTypeException {
         return dishMapper.mapToDishDtoList(dishService.getAllByParams(params));
     }
 
     @GetMapping(value = "get2")
-    public List<DishDto> getAllByParams2(@RequestParam(value = "allergens",required = false) String params)
+    public List<DishDto> getAllByParams2(@RequestParam(value = "allergens",required = false) String params,
+                                         @RequestParam(value = "name",required = false) String name,
+                                         @RequestParam(value = "kcal",required = false) Integer kcal,
+                                         @RequestParam(value = "price",required = false) BigDecimal price)
             throws NoSuchAllergenTypeException {
-        return dishMapper.mapToDishDtoList(dishService.getAllByParams2(params));
+        return dishMapper.mapToDishDtoList(dishService.getAllByParams2(params,name,kcal,price));
     }
 
     @GetMapping(value = "get/{dishId}")

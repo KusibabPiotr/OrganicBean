@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -64,26 +65,36 @@ public class DishService {
 
     }
 
-    public List<Dish> getAllByParams2(String params) throws NoSuchAllergenTypeException {
-        if (params == null){
+    public List<Dish> getAllByParams2(String params, String name,
+                                      Integer kcal, BigDecimal price)
+            throws NoSuchAllergenTypeException {
+        if (params == null && name == null && kcal == null && price == null){
             return dishRepository.findAll();
         }
-        List<Allergen> all = allergenRepository.findAll();
-        Set<String> split = Set.of(params.split(","));
-        Set<Allergen> allergens = new HashSet<>();
+        DishSpecification dishSpecification = new DishSpecification();
+
+//        List<Allergen> all = allergenRepository.findAll();
+//        if (params != null){
+//            Set<String> split = Set.of(params.split(","));
+//            Set<Allergen> allergens = new HashSet<>();
 //
-        for (String s : split) {
-            for (Allergen allergen : all) {
-                if (AllergenType.getTypeFromDescription(s).equals(allergen.getAllergenType())){
-                    allergens.add(allergen);
-                }
-            }
-        }
-        return dishRepository.findByAllergenSet(allergens,Integer.toUnsignedLong(allergens.size()));
-//        DishSpecification dishSpecification = new DishSpecification();
-//        dishSpecification.add(new SearchCriteria("allergens",allergens, SearchOperation.IN));
-//
-//        return dishRepository.findAll(dishSpecification);
+//            for (String s : split) {
+//                for (Allergen allergen : all) {
+//                    if (AllergenType.getTypeFromDescription(s).equals(allergen.getAllergenType())){
+//                        allergens.add(allergen);
+//                    }
+//                }
+//            }
+//            dishSpecification.add(new SearchCriteria("allergens",allergens, SearchOperation.IN));
+//        }
+        if (name != null)
+            dishSpecification.add(new SearchCriteria("name",name,SearchOperation.MATCH));
+        if (kcal != null)
+            dishSpecification.add(new SearchCriteria("kcal",kcal,SearchOperation.GREATER_THAN));
+        if (price != null)
+            dishSpecification.add(new SearchCriteria("price",price,SearchOperation.GREATER_THAN));
+
+        return dishRepository.findAll(dishSpecification);
     }
 
 }
