@@ -12,7 +12,6 @@ import ka.piotr.organicbean.restaurant.repository.DishRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -23,10 +22,6 @@ public class DishService {
     private final DishRepository dishRepository;
     private final AllergenRepository allergenRepository;
 
-    public List<Dish> getAllDishes() {
-        return dishRepository.findAll();
-    }
-
     public Optional<Dish> getDish(final Long id){
         return dishRepository.findById(id);
     }
@@ -35,11 +30,13 @@ public class DishService {
         return dishRepository.save(dish);
     }
 
-    public void deleteDish(final Long id){
+    public void deleteDish(final Long id)
+            throws IllegalArgumentException{
         dishRepository.deleteById(id);
     }
 
-    private List<Dish> byAllergensFiltering(String params) throws NoSuchAllergenTypeException {
+    private List<Dish> byAllergensFiltering(String params)
+            throws NoSuchAllergenTypeException {
         List<Allergen> all = allergenRepository.findAll();
         Set<String> split = Set.of(params.split(","));
         Set<Allergen> allergens = new HashSet<>();

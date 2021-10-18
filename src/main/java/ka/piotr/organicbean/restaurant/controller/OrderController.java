@@ -28,18 +28,18 @@ public class OrderController {
     private final OrderMapper orderMapper;
     private final CustomerMapper customerMapper;
 
-    @GetMapping("get")
+    @GetMapping
     public List <OrderDto> getAllOrders(){
         return orderMapper.mapToOrderDtoList(orderService.getAllOrders());
     }
 
-    @GetMapping(value = "get/{orderId}")
+    @GetMapping(value = "/{orderId}")
     public OrderDto getOrder(@PathVariable Long orderId) throws OrderNotFoundException{
         return orderMapper.mapToOrderDto(orderService.getOrder(orderId)
                 .orElseThrow(OrderNotFoundException::new));
     }
 
-    @PostMapping(value = "create")
+    @PostMapping
     public OrderDto createOrder(){
         return orderMapper.mapToOrderDto(orderService.createOrder());
     }
@@ -47,23 +47,29 @@ public class OrderController {
     @PatchMapping(value = "{orderId}/addDish")
     public OrderDto addDishToOrder(@PathVariable Long orderId, @RequestParam Long dishId)
             throws DishNotFoundException,OrderNotFoundException{
-        return orderMapper.mapToOrderDto(orderService.addDishToOrder(orderId,dishId));
+        return orderMapper.mapToOrderDto(
+                orderService.addDishToOrder(orderId,dishId));
     }
 
     @PatchMapping(value = "{orderId}/addCustomer",
                 consumes = MediaType.APPLICATION_JSON_VALUE)
     public OrderDto addCustomerToOrder(@PathVariable Long orderId, @RequestBody @Valid CustomerDto customerDto )
             throws OrderNotFoundException {
-        return orderMapper.mapToOrderDto(orderService.addCustomerToOrder(orderId,customerMapper.mapToCustomer(customerDto)));
+        return orderMapper.mapToOrderDto(
+                orderService.addCustomerToOrder(
+                        orderId,customerMapper.mapToCustomer(customerDto)));
     }
 
-    @PutMapping(value = "update/{orderId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{orderId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public OrderDto updateOrder(@RequestBody @Valid OrderDto orderDto, @PathVariable Long orderId){
-        return orderMapper.mapToOrderDto(orderService.updateOrder(orderMapper.mapToOrder(orderDto,orderId)));
+        return orderMapper.mapToOrderDto(
+                orderService.updateOrder(
+                        orderMapper.mapToOrder(orderDto,orderId)));
     }
 
-    @DeleteMapping(value = "delete/{orderId}")
-    public void deleteOrder(@PathVariable Long orderId){
+    @DeleteMapping(value = "/{orderId}")
+    public void deleteOrder(@PathVariable Long orderId)
+            throws IllegalArgumentException{
         orderService.deleteOrder(orderId);
     }
 

@@ -4,7 +4,6 @@ import ka.piotr.organicbean.restaurant.model.domain.Dish;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 

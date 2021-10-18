@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -20,7 +19,7 @@ public class DishController {
     private final DishService dishService;
     private final DishMapper dishMapper;
 
-    @GetMapping(value = "get")
+    @GetMapping
     public List<DishDto> getByParams(@RequestParam(value = "allergens",required = false) String params,
                                          @RequestParam(value = "name",required = false) String name,
                                          @RequestParam(value = "minKcal",defaultValue = "0") Integer minKcal,
@@ -31,26 +30,26 @@ public class DishController {
         return dishMapper.mapToDishDtoList(dishService.getByParams(params,name,minKcal,maxKcal,minPrice,maxPrice));
     }
 
-    @GetMapping(value = "get/{dishId}")
+    @GetMapping(value = "/{dishId}")
     public DishDto getDish(@PathVariable Long dishId) throws DishNotFoundException {
         return dishMapper.mapToDishDto(dishService.getDish(dishId)
                 .orElseThrow(DishNotFoundException::new));
     }
 
-    @PostMapping(value = "create",
-            consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public DishDto createDish(@RequestBody DishDto dishDto) {
         return dishMapper.mapToDishDto(dishService.createDish(dishMapper.mapToDish(dishDto)));
     }
 
-    @PutMapping(value = "update/{dishId}",
+    @PutMapping(value = "/{dishId}",
     consumes = MediaType.APPLICATION_JSON_VALUE)
     public DishDto updateDish(@PathVariable Long dishId, @RequestBody DishDto dishDto){
         return dishMapper.mapToDishDto(dishService.createDish(dishMapper.mapToDish(dishDto,dishId)));
     }
 
-    @DeleteMapping(value = "delete/{dishId}")
-    public void deleteDish(@PathVariable Long dishId){
+    @DeleteMapping(value = "/{dishId}")
+    public void deleteDish(@PathVariable Long dishId)
+            throws IllegalArgumentException{
         dishService.deleteDish(dishId);
     }
 }
