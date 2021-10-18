@@ -82,7 +82,7 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-    public void removeCustomerFromOrder(Long orderId)
+    public void removeCustomerFromOrder(Long orderId, Long customerId)
             throws OrderNotFoundException {
 
         Order order = orderRepository.findById(orderId)
