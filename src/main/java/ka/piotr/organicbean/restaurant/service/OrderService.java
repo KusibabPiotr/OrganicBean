@@ -6,7 +6,6 @@ import ka.piotr.organicbean.restaurant.model.OrderStatus;
 import ka.piotr.organicbean.restaurant.model.domain.Customer;
 import ka.piotr.organicbean.restaurant.model.domain.Dish;
 import ka.piotr.organicbean.restaurant.model.domain.Order;
-import ka.piotr.organicbean.restaurant.repository.CustomerRepository;
 import ka.piotr.organicbean.restaurant.repository.DishRepository;
 import ka.piotr.organicbean.restaurant.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +21,9 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final DishRepository dishRepository;
-    private final CustomerRepository customerRepository;
 
     public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+        return orderRepository.findAllOrders();
     }
 
     public Order createOrder(){
@@ -40,7 +38,7 @@ public class OrderService {
     }
 
     public Optional<Order> getOrder(Long id){
-        return orderRepository.findById(id);
+        return orderRepository.findOrderById(id);
     }
 
     public Order addDishToOrder(Long orderId, Long dishId)

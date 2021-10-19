@@ -23,7 +23,7 @@ public class DishService {
     private final AllergenRepository allergenRepository;
 
     public Optional<Dish> getDish(final Long id){
-        return dishRepository.findById(id);
+        return dishRepository.findDishId(id);
     }
 
     public Dish createDish(final Dish dish){
@@ -37,6 +37,9 @@ public class DishService {
 
     private List<Dish> byAllergensFiltering(String params)
             throws NoSuchAllergenTypeException {
+        //for better performance maybye its better to keep allergens in app instead of db?
+        //additional select
+
         List<Allergen> all = allergenRepository.findAll();
         Set<String> split = Set.of(params.split(","));
         Set<Allergen> allergens = new HashSet<>();
@@ -57,7 +60,7 @@ public class DishService {
             throws NoSuchAllergenTypeException {
 
         if (params == null && name == null && maxKcal == null && maxPrice == null){
-            return dishRepository.findAll();
+            return dishRepository.findAllDishes();
         }
 
         DishSpecification dishSpecification = new DishSpecification();
