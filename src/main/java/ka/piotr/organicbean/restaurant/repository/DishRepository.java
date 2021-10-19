@@ -25,7 +25,7 @@ public interface DishRepository extends JpaRepository<Dish,Long>, JpaSpecificati
             "group by d having count(a) = :listSize")
     List<Dish> findByAllergenSet(@Param("set") Set<Allergen> set, @Param("listSize") long listSize);
 
-    @Query("select d from Dish d inner join fetch d.allergens a")
+    @Query("select distinct d from Dish d inner join fetch d.allergens a")
     List<Dish> findAllDishes();
 
 
