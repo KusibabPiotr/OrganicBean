@@ -63,10 +63,10 @@ public class OrderController {
 
     @PutMapping(value = "/{orderId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public OrderDto updateOrder(@RequestBody @Valid OrderDto orderDto,
-                                @PathVariable Long orderId){
+                                @PathVariable Long orderId)
+            throws OrderNotFoundException {
         return OrderMapper.mapToOrderDto(
-                orderService.updateOrder(
-                        OrderMapper.mapToOrder(orderDto),orderId));
+                orderService.updateOrder(OrderMapper.mapToOrder(orderDto),orderId));
     }
 
     @DeleteMapping(value = "/{orderId}")

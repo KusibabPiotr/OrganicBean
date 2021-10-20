@@ -13,6 +13,7 @@ import java.util.Set;
 @Table(name = "DISHES")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Getter
 @Setter
 public final class Dish {
@@ -25,6 +26,7 @@ public final class Dish {
     private BigDecimal price;
     private int kcal;
 
+    @Builder.Default
     @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     private Set <Allergen> allergens = new HashSet<>();
 

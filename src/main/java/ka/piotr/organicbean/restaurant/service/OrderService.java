@@ -11,6 +11,7 @@ import ka.piotr.organicbean.restaurant.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -58,7 +59,8 @@ public class OrderService {
     public Order addCustomerToOrder(Long id, Customer customer)
             throws OrderNotFoundException {
 
-        Order order = orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
+        Order order = orderRepository.findById(id)
+                .orElseThrow(OrderNotFoundException::new);
         order.setCustomer(customer);
 
         return orderRepository.save(order);
@@ -90,9 +92,14 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-    public Order updateOrder(Order order, Long id){
-        order.setId(id);
-        return orderRepository.save(order);
+    @Transactional
+    public Order updateOrder(Order order, Long id)
+            throws OrderNotFoundException {
+        Order orderDb = orderRepository.findById(id)
+                .orElseThrow(OrderNotFoundException::new);
+        orderDb.setCustomer(order.getCustomer());
+        orderDb.setOrderStatus(order.getOrderStatus());
+        return orderDb;
     }
 
     public void deleteOrder(Long id) throws IllegalArgumentException{

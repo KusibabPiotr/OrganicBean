@@ -12,19 +12,23 @@ public class OrderMapper {
     }
 
     public static OrderDto mapToOrderDto(final Order order){
-        return new OrderDto(order.getId(),
-                order.getDishes(),
-                order.getCustomer(),
-                order.getOrderStatus(),
-                order.getTotal());
+        return OrderDto.builder()
+                .id(order.getId())
+                .dishes(order.getDishes())
+                .customer(order.getCustomer())
+                .orderStatus(order.getOrderStatus())
+                .total(order.getTotal())
+                .build();
     }
 
     public static Order mapToOrder(final OrderDto orderDto){
-        return new Order(orderDto.getId(),
-                orderDto.getDishes(),
-                orderDto.getCustomer(),
-                orderDto.getOrderStatus(),
-                orderDto.getTotal());
+        return Order.builder()
+                .id(orderDto.getId())
+                .dishes(orderDto.getDishes())
+                .customer(orderDto.getCustomer())
+                .orderStatus(orderDto.getOrderStatus())
+                .total(orderDto.getTotal())
+                .build();
     }
 
     public static List <OrderDto> mapToOrderDtoList(final List <Order> orderList){

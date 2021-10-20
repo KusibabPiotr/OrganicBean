@@ -12,23 +12,27 @@ public class DishMapper {
     }
 
     public static Dish mapToDish(final DishDto dishDto){
-        return new Dish(dishDto.getId(),
-                dishDto.getName(),
-                dishDto.getDescription(),
-                dishDto.getPrice(),
-                dishDto.getKcal(),
-                AllergenMapper.mapToAllergenSet(dishDto.getAllergens()),
-                dishDto.getDishType());
+        return Dish.builder()
+                .id(dishDto.getId())
+                .name(dishDto.getName())
+                .description(dishDto.getDescription())
+                .price(dishDto.getPrice())
+                .kcal(dishDto.getKcal())
+                .allergens(AllergenMapper.mapToAllergenSet(dishDto.getAllergens()))
+                .dishType(dishDto.getDishType())
+                .build();
     }
 
     public static DishDto mapToDishDto(final Dish dish){
-        return new DishDto(dish.getId(),
-                dish.getName(),
-                dish.getDescription(),
-                dish.getPrice(),
-                dish.getKcal(),
-                AllergenMapper.mapToAllergenDtoSet(dish.getAllergens()),
-                dish.getDishType());
+        return DishDto.builder()
+                .id(dish.getId())
+                .name(dish.getName())
+                .description(dish.getDescription())
+                .price(dish.getPrice())
+                .kcal(dish.getKcal())
+                .allergens(AllergenMapper.mapToAllergenDtoSet(dish.getAllergens()))
+                .dishType(dish.getDishType())
+                .build();
     }
 
 

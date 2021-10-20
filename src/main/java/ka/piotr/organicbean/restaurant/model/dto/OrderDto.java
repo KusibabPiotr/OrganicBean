@@ -4,6 +4,7 @@ import ka.piotr.organicbean.restaurant.model.OrderStatus;
 import ka.piotr.organicbean.restaurant.model.domain.Customer;
 import ka.piotr.organicbean.restaurant.model.domain.Dish;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.web.context.annotation.SessionScope;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Data
+@Builder
 @SessionScope
 public class OrderDto {
 

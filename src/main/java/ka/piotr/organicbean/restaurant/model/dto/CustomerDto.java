@@ -2,6 +2,7 @@ package ka.piotr.organicbean.restaurant.model.dto;
 
 import ka.piotr.organicbean.restaurant.validation.ValidPhoneNumber;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.Valid;
@@ -10,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @AllArgsConstructor
+@Builder
 @Data
 public class CustomerDto {
 

@@ -1,9 +1,6 @@
 package ka.piotr.organicbean.restaurant.model.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,6 +9,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "CUSTOMERS")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Getter
 @Setter
 public class Customer {

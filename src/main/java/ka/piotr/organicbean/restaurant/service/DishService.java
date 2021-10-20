@@ -3,6 +3,7 @@ package ka.piotr.organicbean.restaurant.service;
 import ka.piotr.organicbean.restaurant.controller.specification.DishSpecification;
 import ka.piotr.organicbean.restaurant.controller.specification.SearchCriteria;
 import ka.piotr.organicbean.restaurant.controller.specification.SearchOperation;
+import ka.piotr.organicbean.restaurant.exceptions.DishNotFoundException;
 import ka.piotr.organicbean.restaurant.exceptions.NoSuchAllergenTypeException;
 import ka.piotr.organicbean.restaurant.model.AllergenType;
 import ka.piotr.organicbean.restaurant.model.domain.Allergen;
@@ -12,6 +13,7 @@ import ka.piotr.organicbean.restaurant.repository.DishRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,9 +32,16 @@ public class DishService {
         return dishRepository.save(dish);
     }
 
-    public Dish updateDish(final Dish dish, final Long id){
-        dish.setId(id);
-        return dishRepository.save(dish);
+    @Transactional
+    public Dish updateDish(final Dish dish, final Long id)
+            throws DishNotFoundException {
+        Dish dishDb = dishRepository.findById(id)
+                .orElseThrow(DishNotFoundException::new);
+        dishDb.setName(dish.getName());
+        dishDb.setDescription(dish.getDescription());
+        dishDb.setPrice(dish.getPrice());
+        dishDb.setKcal(dish.getKcal());
+        return dishDb;
     }
 
     public void deleteDish(final Long id)
@@ -42,26 +51,26 @@ public class DishService {
 
     private List<Dish> byAllergensFiltering(String params)
             throws NoSuchAllergenTypeException {
-        //for better performance maybye its better to keep allergens in app instead of db?
-        //additional select
-
         List<Allergen> all = allergenRepository.findAll();
         Set<String> split = Set.of(params.split(","));
         Set<Allergen> allergens = new HashSet<>();
 
         for (String s : split) {
             for (Allergen allergen : all) {
-                if (AllergenType.getTypeFromDescription(s).equals(allergen.getAllergenType())){
+                if (AllergenType.getTypeFromDescription(s)
+                        .equals(allergen.getAllergenType())){
                     allergens.add(allergen);
                 }
             }
         }
-        return dishRepository.findByAllergenSet(allergens,Integer.toUnsignedLong(allergens.size()));
+        return dishRepository.findByAllergenSet(
+                allergens,Integer.toUnsignedLong(allergens.size()));
 
     }
 
     public List<Dish> getByParams(String params, String name,
-                                      Integer minKcal, Integer maxKcal, Integer minPrice, Integer maxPrice)
+                                      Integer minKcal, Integer maxKcal,
+                                  Integer minPrice, Integer maxPrice)
             throws NoSuchAllergenTypeException {
 
         if (params == null && name == null && maxKcal == null && maxPrice == null){
@@ -78,11 +87,14 @@ public class DishService {
 
         if (name != null || maxKcal != null || maxPrice != null){
             if (name != null)
-                dishSpecification.addSearchCriteria(new SearchCriteria("name",name,SearchOperation.MATCH));
+                dishSpecification.addSearchCriteria(new SearchCriteria(
+                        "name",name,SearchOperation.MATCH));
             if (maxKcal != null)
-                dishSpecification.addSearchCriteria(new SearchCriteria("kcal",minKcal,maxKcal,SearchOperation.BETWEEN));
+                dishSpecification.addSearchCriteria(new SearchCriteria(
+                        "kcal",minKcal,maxKcal,SearchOperation.BETWEEN));
             if (maxPrice != null)
-                dishSpecification.addSearchCriteria(new SearchCriteria("price",minPrice,maxPrice,SearchOperation.BETWEEN));
+                dishSpecification.addSearchCriteria(new SearchCriteria(
+                        "price",minPrice,maxPrice,SearchOperation.BETWEEN));
 
             byRestParameters = dishRepository.findAll(dishSpecification);
         }

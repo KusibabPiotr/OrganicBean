@@ -46,7 +46,8 @@ public class DishController {
     @PutMapping(value = "/{dishId}",
     consumes = MediaType.APPLICATION_JSON_VALUE)
     public DishDto updateDish(@PathVariable Long dishId,
-                              @RequestBody DishDto dishDto){
+                              @RequestBody DishDto dishDto)
+            throws DishNotFoundException {
         return DishMapper.mapToDishDto(
                 dishService.updateDish(DishMapper.mapToDish(dishDto),dishId));
     }

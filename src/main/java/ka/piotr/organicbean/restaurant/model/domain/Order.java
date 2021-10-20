@@ -1,10 +1,7 @@
 package ka.piotr.organicbean.restaurant.model.domain;
 
 import ka.piotr.organicbean.restaurant.model.OrderStatus;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -16,6 +13,7 @@ import java.util.List;
 @Table(name = "ORDERS")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Getter
 @Setter
 public class Order {
@@ -23,14 +21,18 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Builder.Default
     @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "DISHES_ORDERS",
-    joinColumns = {@JoinColumn(name = "order_id",referencedColumnName = "id")},
+            joinColumns = {@JoinColumn(name = "order_id",referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "dish_ID",referencedColumnName = "id")})
     private List<Dish> dishes = new ArrayList<>();
+
     @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST},
                 fetch = FetchType.LAZY)
     private Customer customer;
+
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
     private BigDecimal total;
