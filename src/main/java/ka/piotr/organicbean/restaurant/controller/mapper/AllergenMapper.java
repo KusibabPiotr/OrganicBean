@@ -12,13 +12,17 @@ public class AllergenMapper {
     }
 
     public static AllergenDto mapToAllergenDto(final Allergen allergen){
-        return new AllergenDto(allergen.getId(),
-                allergen.getAllergenType());
+        return AllergenDto.builder()
+                .id(allergen.getId())
+                .allergenType(allergen.getAllergenType())
+                .build();
     }
 
     public static Allergen mapToAllergen(final AllergenDto allergenDto){
-        return new Allergen(allergenDto.getId(),
-                allergenDto.getAllergenType());
+        return Allergen.builder()
+                .id(allergenDto.getId())
+                .allergenType(allergenDto.getAllergenType())
+                .build();
     }
 
     public static Set<AllergenDto> mapToAllergenDtoSet(final Set<Allergen> allergens){

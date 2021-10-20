@@ -2,12 +2,14 @@ package ka.piotr.organicbean.restaurant.model.dto;
 
 import ka.piotr.organicbean.restaurant.validation.ValidPostCode;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 
 @AllArgsConstructor
+@Builder
 @Data
 public class AddressDto {
 

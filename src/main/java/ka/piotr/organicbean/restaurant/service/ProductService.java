@@ -5,6 +5,7 @@ import ka.piotr.organicbean.restaurant.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +25,15 @@ public class ProductService {
 
     public Product saveProduct(Product product) {
         return productRepository.save(product);
+    }
+
+    @Transactional
+    public Product updateProduct(Product product, Long id){
+        Product productDb = productRepository.findById(id).orElseThrow();
+        productDb.setName(product.getName());
+        productDb.setDescription(product.getDescription());
+        productDb.setPrice(product.getPrice());
+        return productDb;
     }
 
     public void deleteProduct(Long id){

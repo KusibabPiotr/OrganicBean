@@ -1,16 +1,14 @@
 package ka.piotr.organicbean.restaurant.model.domain;
 
 import ka.piotr.organicbean.restaurant.model.AllergenType;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "ALLERGENS")
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

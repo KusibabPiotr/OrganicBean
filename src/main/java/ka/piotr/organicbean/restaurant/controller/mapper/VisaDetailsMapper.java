@@ -9,16 +9,20 @@ public class VisaDetailsMapper {
     }
 
     public static VisaDetails mapToVisaDetails(final VisaDetailsDto visaDetailsDto){
-        return new VisaDetails(visaDetailsDto.getId(),
-                visaDetailsDto.getCcNumber(),
-                visaDetailsDto.getCcExpiration(),
-                visaDetailsDto.getCcCVV());
+        return VisaDetails.builder()
+                .id(visaDetailsDto.getId())
+                .ccNumber(visaDetailsDto.getCcNumber())
+                .ccExpiration(visaDetailsDto.getCcExpiration())
+                .ccCVV(visaDetailsDto.getCcCVV())
+                .build();
     }
 
     public static VisaDetailsDto mapToVisaDetailsDto(final VisaDetails visaDetails){
-        return new VisaDetailsDto(visaDetails.getId(),
-                visaDetails.getCcNumber(),
-                visaDetails.getCcExpiration(),
-                visaDetails.getCcCVV());
+        return VisaDetailsDto.builder()
+                .id(visaDetails.getId())
+                .ccNumber(visaDetails.getCcNumber())
+                .ccExpiration(visaDetails.getCcExpiration())
+                .ccCVV(visaDetails.getCcCVV())
+                .build();
     }
 }

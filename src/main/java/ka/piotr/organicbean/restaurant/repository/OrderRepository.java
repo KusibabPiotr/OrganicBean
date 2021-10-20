@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@Transactional
 public interface OrderRepository extends JpaRepository<Order,Long> {
 
     @Query("select distinct o from Order o inner join fetch o.dishes d " +

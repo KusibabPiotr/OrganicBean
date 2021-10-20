@@ -10,20 +10,24 @@ public class AddressMapper {
     }
 
     public static Address mapToAddress(final AddressDto addressDto){
-        return new Address(addressDto.getId(),
-                addressDto.getFlatNumber(),
-                addressDto.getHouseNumber(),
-                addressDto.getStreet(),
-                addressDto.getCity(),
-                addressDto.getPostCode());
+        return Address.builder()
+                .id(addressDto.getId())
+                .flatNumber(addressDto.getFlatNumber())
+                .houseNumber(addressDto.getFlatNumber())
+                .street(addressDto.getStreet())
+                .city(addressDto.getCity())
+                .postCode(addressDto.getPostCode())
+                .build();
     }
 
     public static AddressDto mapToAddressDto(final Address address){
-        return new AddressDto(address.getId(),
-                address.getFlatNumber(),
-                address.getHouseNumber(),
-                address.getStreet(),
-                address.getCity(),
-                address.getPostCode());
+        return AddressDto.builder()
+                .id(address.getId())
+                .flatNumber(address.getFlatNumber())
+                .houseNumber(address.getHouseNumber())
+                .street(address.getStreet())
+                .city(address.getCity())
+                .postCode(address.getPostCode())
+                .build();
     }
 }

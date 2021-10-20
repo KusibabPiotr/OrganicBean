@@ -4,10 +4,11 @@ import ka.piotr.organicbean.restaurant.validation.ValidCardExpiration;
 import ka.piotr.organicbean.restaurant.validation.ValidCardNumber;
 import ka.piotr.organicbean.restaurant.validation.ValidCvv;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
-
 @AllArgsConstructor
+@Builder
 @Data
 public class VisaDetailsDto {
 

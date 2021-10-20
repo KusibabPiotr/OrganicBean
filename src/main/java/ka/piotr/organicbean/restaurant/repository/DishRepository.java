@@ -17,7 +17,6 @@ import java.util.Optional;
 import java.util.Set;
 
 @Repository
-@Transactional
 public interface DishRepository extends JpaRepository<Dish,Long>, JpaSpecificationExecutor<Dish> {
 
     @Query("select d from Dish d inner join d.allergens a " +
