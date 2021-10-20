@@ -25,46 +25,48 @@ import java.util.Map;
 public class OrderController {
 
     private final OrderService orderService;
-    private final OrderMapper orderMapper;
-    private final CustomerMapper customerMapper;
 
     @GetMapping
     public List <OrderDto> getAllOrders(){
-        return orderMapper.mapToOrderDtoList(orderService.getAllOrders());
+        return OrderMapper.mapToOrderDtoList(orderService.getAllOrders());
     }
 
     @GetMapping(value = "/{orderId}")
-    public OrderDto getOrder(@PathVariable Long orderId) throws OrderNotFoundException{
-        return orderMapper.mapToOrderDto(orderService.getOrder(orderId)
+    public OrderDto getOrder(@PathVariable Long orderId)
+            throws OrderNotFoundException{
+        return OrderMapper.mapToOrderDto(orderService.getOrder(orderId)
                 .orElseThrow(OrderNotFoundException::new));
     }
 
     @PostMapping
     public OrderDto createOrder(){
-        return orderMapper.mapToOrderDto(orderService.createOrder());
+        return OrderMapper.mapToOrderDto(orderService.createOrder());
     }
 
     @PatchMapping(value = "/{orderId}/dishes/{dishId}")
-    public OrderDto addDishToOrder(@PathVariable Long orderId, @PathVariable Long dishId)
+    public OrderDto addDishToOrder(@PathVariable Long orderId,
+                                   @PathVariable Long dishId)
             throws DishNotFoundException,OrderNotFoundException{
-        return orderMapper.mapToOrderDto(
+        return OrderMapper.mapToOrderDto(
                 orderService.addDishToOrder(orderId,dishId));
     }
 
     @PatchMapping(value = "/{orderId}/customers",
                 consumes = MediaType.APPLICATION_JSON_VALUE)
-    public OrderDto addCustomerToOrder(@PathVariable Long orderId, @RequestBody @Valid CustomerDto customerDto )
+    public OrderDto addCustomerToOrder(@PathVariable Long orderId,
+                                       @RequestBody @Valid CustomerDto customerDto )
             throws OrderNotFoundException {
-        return orderMapper.mapToOrderDto(
+        return OrderMapper.mapToOrderDto(
                 orderService.addCustomerToOrder(
-                        orderId,customerMapper.mapToCustomer(customerDto)));
+                        orderId,CustomerMapper.mapToCustomer(customerDto)));
     }
 
     @PutMapping(value = "/{orderId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public OrderDto updateOrder(@RequestBody @Valid OrderDto orderDto, @PathVariable Long orderId){
-        return orderMapper.mapToOrderDto(
+    public OrderDto updateOrder(@RequestBody @Valid OrderDto orderDto,
+                                @PathVariable Long orderId){
+        return OrderMapper.mapToOrderDto(
                 orderService.updateOrder(
-                        orderMapper.mapToOrder(orderDto,orderId)));
+                        OrderMapper.mapToOrder(orderDto),orderId));
     }
 
     @DeleteMapping(value = "/{orderId}")
@@ -74,12 +76,14 @@ public class OrderController {
     }
 
     @DeleteMapping(value = "/{orderId}/dishes/{dishId}")
-    public void removeDishFromOrder(@PathVariable Long orderId, @PathVariable Long dishId)
+    public void removeDishFromOrder(@PathVariable Long orderId,
+                                    @PathVariable Long dishId)
             throws OrderNotFoundException, DishNotFoundException {
         orderService.removeDishFromOrder(orderId,dishId);
     }
     @DeleteMapping(value = "/{orderId}/customers/{customerId}")
-    public void removeCustomerFromOrder(@PathVariable Long orderId, @PathVariable Long customerId)
+    public void removeCustomerFromOrder(@PathVariable Long orderId,
+                                        @PathVariable Long customerId)
             throws OrderNotFoundException {
         orderService.removeCustomerFromOrder(orderId,customerId);
     }

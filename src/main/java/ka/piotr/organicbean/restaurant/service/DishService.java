@@ -30,6 +30,11 @@ public class DishService {
         return dishRepository.save(dish);
     }
 
+    public Dish updateDish(final Dish dish, final Long id){
+        dish.setId(id);
+        return dishRepository.save(dish);
+    }
+
     public void deleteDish(final Long id)
             throws IllegalArgumentException{
         dishRepository.deleteById(id);

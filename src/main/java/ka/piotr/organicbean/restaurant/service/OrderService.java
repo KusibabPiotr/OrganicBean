@@ -90,7 +90,8 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-    public Order updateOrder(Order order){
+    public Order updateOrder(Order order, Long id){
+        order.setId(id);
         return orderRepository.save(order);
     }
 

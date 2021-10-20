@@ -17,7 +17,6 @@ import java.util.List;
 public class DishController {
 
     private final DishService dishService;
-    private final DishMapper dishMapper;
 
     @GetMapping
     public List<DishDto> getByParams(@RequestParam(value = "allergens",required = false) String params,
@@ -27,24 +26,29 @@ public class DishController {
                                          @RequestParam(value = "minPrice",defaultValue = "0") Integer minPrice,
                                          @RequestParam(value = "maxPrice",required = false) Integer maxPrice)
             throws NoSuchAllergenTypeException {
-        return dishMapper.mapToDishDtoList(dishService.getByParams(params,name,minKcal,maxKcal,minPrice,maxPrice));
+        return DishMapper.mapToDishDtoList(
+                dishService.getByParams(params,name,minKcal,maxKcal,minPrice,maxPrice));
     }
 
     @GetMapping(value = "/{dishId}")
-    public DishDto getDish(@PathVariable Long dishId) throws DishNotFoundException {
-        return dishMapper.mapToDishDto(dishService.getDish(dishId)
+    public DishDto getDish(@PathVariable Long dishId)
+            throws DishNotFoundException {
+        return DishMapper.mapToDishDto(dishService.getDish(dishId)
                 .orElseThrow(DishNotFoundException::new));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public DishDto createDish(@RequestBody DishDto dishDto) {
-        return dishMapper.mapToDishDto(dishService.createDish(dishMapper.mapToDish(dishDto)));
+        return DishMapper.mapToDishDto(
+                dishService.createDish(DishMapper.mapToDish(dishDto)));
     }
 
     @PutMapping(value = "/{dishId}",
     consumes = MediaType.APPLICATION_JSON_VALUE)
-    public DishDto updateDish(@PathVariable Long dishId, @RequestBody DishDto dishDto){
-        return dishMapper.mapToDishDto(dishService.createDish(dishMapper.mapToDish(dishDto,dishId)));
+    public DishDto updateDish(@PathVariable Long dishId,
+                              @RequestBody DishDto dishDto){
+        return DishMapper.mapToDishDto(
+                dishService.updateDish(DishMapper.mapToDish(dishDto),dishId));
     }
 
     @DeleteMapping(value = "/{dishId}")

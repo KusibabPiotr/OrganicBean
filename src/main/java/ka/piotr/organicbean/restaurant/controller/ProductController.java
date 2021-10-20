@@ -16,28 +16,28 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
-    private final ProductMapper productMapper;
 
     @GetMapping
     public List<ProductDto> getProducts(){
-        return productMapper.mapToProductDtoList(productService.getProducts());
+        return ProductMapper.mapToProductDtoList(productService.getProducts());
     }
 
     @GetMapping(value = "/{id}")
     public ProductDto getProduct(@PathVariable Long id) throws ProductNotFoundException {
-        return productMapper.mapToProductDto(productService.getProduct(id).
+        return ProductMapper.mapToProductDto(productService.getProduct(id).
                 orElseThrow(ProductNotFoundException::new));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ProductDto createProduct(@RequestBody ProductDto productDto){
-        return productMapper.mapToProductDto(productService.saveProduct(productMapper.mapToProduct(productDto,null)));
+        return ProductMapper.mapToProductDto(productService.saveProduct(ProductMapper.mapToProduct(productDto,null)));
     }
 
     @PutMapping(value = "/{id}",
     consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ProductDto updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto){
-        return productMapper.mapToProductDto(productService.saveProduct(productMapper.mapToProduct(productDto,id)));
+    public ProductDto updateProduct(@PathVariable Long id,
+                                    @RequestBody ProductDto productDto){
+        return ProductMapper.mapToProductDto(productService.saveProduct(ProductMapper.mapToProduct(productDto,id)));
     }
 
     @DeleteMapping(value = "/{id}")
