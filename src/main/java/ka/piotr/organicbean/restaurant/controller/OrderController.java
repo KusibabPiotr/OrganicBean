@@ -34,8 +34,7 @@ public class OrderController {
     @GetMapping(value = "/{orderId}")
     public OrderDto getOrder(@PathVariable Long orderId)
             throws OrderNotFoundException{
-        return OrderMapper.mapToOrderDto(orderService.getOrder(orderId)
-                .orElseThrow(OrderNotFoundException::new));
+        return OrderMapper.mapToOrderDto(orderService.getOrder(orderId));
     }
 
     @PostMapping
@@ -81,11 +80,10 @@ public class OrderController {
             throws OrderNotFoundException, DishNotFoundException {
         orderService.removeDishFromOrder(orderId,dishId);
     }
-    @DeleteMapping(value = "/{orderId}/customers/{customerId}")
-    public void removeCustomerFromOrder(@PathVariable Long orderId,
-                                        @PathVariable Long customerId)
+    @DeleteMapping(value = "/{orderId}/customers")
+    public void removeCustomerFromOrder(@PathVariable Long orderId)
             throws OrderNotFoundException {
-        orderService.removeCustomerFromOrder(orderId,customerId);
+        orderService.removeCustomerFromOrder(orderId);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

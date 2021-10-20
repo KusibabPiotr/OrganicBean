@@ -51,4 +51,10 @@ public class Order {
     public int hashCode() {
         return id.hashCode();
     }
+
+    public void setTotalPrice(){
+        this.total = dishes.stream()
+                .map(Dish::getPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 }

@@ -38,10 +38,13 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public Optional<Order> getOrder(Long id){
-        return orderRepository.findOrderById(id);
+    public Order getOrder(Long id)
+            throws OrderNotFoundException {
+        return orderRepository.findOrderById(id)
+                .orElseThrow(OrderNotFoundException::new);
     }
 
+    @Transactional
     public Order addDishToOrder(Long orderId, Long dishId)
             throws DishNotFoundException, OrderNotFoundException{
 
@@ -51,9 +54,10 @@ public class OrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(OrderNotFoundException::new);
 
-        order.setTotal(order.getTotal().add(dish.getPrice()));
         order.getDishes().add(dish);
-        return orderRepository.save(order);
+        order.setTotalPrice();
+
+        return order;
     }
 
     public Order addCustomerToOrder(Long id, Customer customer)
@@ -63,9 +67,10 @@ public class OrderService {
                 .orElseThrow(OrderNotFoundException::new);
         order.setCustomer(customer);
 
-        return orderRepository.save(order);
+        return order;
     }
 
+    @Transactional
     public void removeDishFromOrder(Long orderId, Long dishId)
             throws OrderNotFoundException, DishNotFoundException {
 
@@ -78,11 +83,10 @@ public class OrderService {
                 .orElseThrow(DishNotFoundException::new);
 
         order.getDishes().remove(dish);
-        order.setTotal(order.getTotal().subtract(dish.getPrice()));
-        orderRepository.save(order);
+        order.setTotalPrice();
     }
 
-    public void removeCustomerFromOrder(Long orderId, Long customerId)
+    public void removeCustomerFromOrder(Long orderId)
             throws OrderNotFoundException {
 
         Order order = orderRepository.findById(orderId)
