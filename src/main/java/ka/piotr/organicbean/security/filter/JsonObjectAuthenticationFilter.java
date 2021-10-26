@@ -1,7 +1,7 @@
 package ka.piotr.organicbean.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ka.piotr.organicbean.security.model.domain.User;
+import ka.piotr.organicbean.registration.model.LoginRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,9 +26,9 @@ public class JsonObjectAuthenticationFilter extends UsernamePasswordAuthenticati
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
             }
-            User authRequest = objectMapper.readValue(sb.toString(), User.class);
+            LoginRequest authRequest = objectMapper.readValue(sb.toString(), LoginRequest.class);
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                    authRequest.getUsername(), authRequest.getPassword()
+                    authRequest.getLogin(), authRequest.getPassword()
             );
             setDetails(request, token);
             return this.getAuthenticationManager().authenticate(token);

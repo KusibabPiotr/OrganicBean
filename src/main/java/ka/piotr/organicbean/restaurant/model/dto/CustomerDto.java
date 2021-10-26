@@ -20,9 +20,6 @@ public class CustomerDto {
     private String firstName;
     @NotBlank(message = "Last name is mandatory!")
     private String lastName;
-    @Email(message = "Provide right email format!")
-    @NotBlank(message = "Email is mandatory!")
-    private String email;
     @ValidPhoneNumber
     private String phoneNumber;
     @NotNull

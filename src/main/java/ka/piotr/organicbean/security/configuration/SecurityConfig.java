@@ -8,8 +8,10 @@ import ka.piotr.organicbean.security.handler.RestAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -20,9 +22,11 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
 import javax.sql.DataSource;
+import java.awt.*;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final DataSource dataSource;
@@ -57,6 +61,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http
                 .authorizeRequests()
+                .antMatchers(HttpMethod.POST,"v1/login").permitAll()
+                .antMatchers(HttpMethod.GET,"/v1/register/confirm").permitAll()
+                .antMatchers(HttpMethod.POST,"/v1/register").permitAll()
+                .antMatchers("/v1/weather/getNow").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
                 .antMatchers("/v2/api-docs").permitAll()
                 .antMatchers("/webjars/**").permitAll()
@@ -66,7 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilter(authenticationFilter())
-                .addFilter(new JwtAuthorizationFilter(authenticationManager(),userDetailsService(),secret))
+//                .addFilter(new JwtAuthorizationFilter(authenticationManager(),userDetailsService(),secret))
                 .exceptionHandling()
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 .and()
