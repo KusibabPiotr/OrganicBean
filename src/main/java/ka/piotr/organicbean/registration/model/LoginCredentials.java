@@ -3,10 +3,10 @@ package ka.piotr.organicbean.registration.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@AllArgsConstructor
 @Getter
-public class LoginRequest {
+@AllArgsConstructor
+public class LoginCredentials {
 
-    private String login;
+    private String username;
     private String password;
 }

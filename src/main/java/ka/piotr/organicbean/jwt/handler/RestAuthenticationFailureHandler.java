@@ -1,4 +1,4 @@
-package ka.piotr.organicbean.security.handler;
+package ka.piotr.organicbean.jwt.handler;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;

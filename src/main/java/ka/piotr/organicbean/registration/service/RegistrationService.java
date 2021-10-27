@@ -52,6 +52,7 @@ public class RegistrationService {
         if (confirmationToken.getExpiresAt().isBefore(LocalDateTime.now())){
             throw new TokenExpiredException("Your registration token expired! You have to sign in again!");
         }
+        confirmationToken.setConfirmedAt(LocalDateTime.now());
         String username = confirmationToken.getAppUser().getUsername();
         AppUser appUser = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("There is no user with given email: %s "));

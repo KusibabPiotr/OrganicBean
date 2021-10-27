@@ -31,24 +31,24 @@ public class CoreConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("ka.piotr"))
                 .paths(PathSelectors.any())
-                .build()
-                .securitySchemes(singletonList(createSchema()))
-                .securityContexts(singletonList(createContext()));
-    }
-
-    private SecurityContext createContext() {
-        return SecurityContext.builder()
-                .securityReferences(createRef())
-                .forPaths(PathSelectors.any())
                 .build();
+//                .securitySchemes(singletonList(createSchema()))
+//                .securityContexts(singletonList(createContext()));
     }
 
-    private List<SecurityReference> createRef() {
-        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-        authorizationScopes[0] = authorizationScope;
-        return singletonList(new SecurityReference("apiKey",authorizationScopes));
-    }
+//    private SecurityContext createContext() {
+//        return SecurityContext.builder()
+//                .securityReferences(createRef())
+//                .forPaths(PathSelectors.any())
+//                .build();
+//    }
+//
+//    private List<SecurityReference> createRef() {
+//        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+//        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+//        authorizationScopes[0] = authorizationScope;
+//        return singletonList(new SecurityReference("apiKey",authorizationScopes));
+//    }
 
     private SecurityScheme createSchema() {
         return new ApiKey("apiKey","Authorization","header");

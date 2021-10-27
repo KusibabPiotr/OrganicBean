@@ -6,12 +6,14 @@ import ka.piotr.organicbean.user.model.AppUser;
 import ka.piotr.organicbean.registration.model.RegistrationRequest;
 import ka.piotr.organicbean.user.repository.AppUserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@Primary
 @Service
 @RequiredArgsConstructor
 public class AppUserService implements UserDetailsService {
@@ -24,7 +26,8 @@ public class AppUserService implements UserDetailsService {
             throws UsernameNotFoundException {
         return userRepository.findByUsername(email)
                 .orElseThrow(() ->
-                        new UsernameNotFoundException("Użytkownik posiadający login %s nie został znaleziony"));
+                        new UsernameNotFoundException(String
+                                .format("Użytkownik posiadający login %s nie został znaleziony",email)));
     }
 
     public void deleteUser(Long id, String password)

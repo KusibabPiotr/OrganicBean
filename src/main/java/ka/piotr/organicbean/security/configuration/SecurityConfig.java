@@ -1,133 +1,82 @@
 package ka.piotr.organicbean.security.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ka.piotr.organicbean.security.filter.JsonObjectAuthenticationFilter;
-import ka.piotr.organicbean.security.filter.JwtAuthorizationFilter;
-import ka.piotr.organicbean.security.handler.RestAuthenticationFailureHandler;
-import ka.piotr.organicbean.security.handler.RestAuthenticationSuccessHandler;
-import org.springframework.beans.factory.annotation.Value;
+import ka.piotr.organicbean.jwt.filter.JsonObjectAuthenticationFilter;
+import ka.piotr.organicbean.jwt.JwtClassParams;
+import ka.piotr.organicbean.jwt.handler.RestAuthenticationFailureHandler;
+import ka.piotr.organicbean.jwt.handler.RestAuthenticationSuccessHandler;
+import ka.piotr.organicbean.user.service.AppUserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
-import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
 import javax.sql.DataSource;
-import java.awt.*;
+
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final DataSource dataSource;
+    private final RestAuthenticationSuccessHandler successHandler;
+    private final RestAuthenticationFailureHandler failureHandler;
+    private final JwtClassParams jwtClassParams;
     private final ObjectMapper objectMapper;
-    private final RestAuthenticationSuccessHandler authenticationSuccessHandler;
-    private final RestAuthenticationFailureHandler authenticationFailureHandler;
-    private final String secret;
+    private final PasswordEncoder passwordEncoder;
+    private final UserDetailsService userService;
 
-    public SecurityConfig(DataSource dataSource, ObjectMapper objectMapper,
-                          RestAuthenticationSuccessHandler authenticationSuccessHandler,
-                          RestAuthenticationFailureHandler authenticationFailureHandler,
-                          @Value("${jwt.secret}") String secret) {
-        this.dataSource = dataSource;
-        this.objectMapper = objectMapper;
-        this.authenticationSuccessHandler = authenticationSuccessHandler;
-        this.authenticationFailureHandler = authenticationFailureHandler;
-        this.secret = secret;
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder builder) throws Exception {
-        builder.jdbcAuthentication()
-                .passwordEncoder(NoOpPasswordEncoder.getInstance())
-                .dataSource(dataSource);
-//                .withUser("test")
-//                .password("{bcrypt}" + new BCryptPasswordEncoder().encode("test"))
-//                .roles("USER");
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+        http.csrf()
+                .disable();
         http
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST,"v1/login").permitAll()
-                .antMatchers(HttpMethod.GET,"/v1/register/confirm").permitAll()
-                .antMatchers(HttpMethod.POST,"/v1/register").permitAll()
-                .antMatchers("/v1/weather/getNow").permitAll()
-                .antMatchers("/swagger-ui/**").permitAll()
-                .antMatchers("/v2/api-docs").permitAll()
-                .antMatchers("/webjars/**").permitAll()
-                .antMatchers("/swagger-resources/**").permitAll()
-                .anyRequest().authenticated()
+                    .antMatchers("/swagger-ui/**").permitAll()
+                    .antMatchers("/v2/api-docs").permitAll()
+                    .antMatchers("/webjars/**").permitAll()
+                    .antMatchers("/swagger-resources/**").permitAll()
+                    .antMatchers(HttpMethod.POST,"/login","/v1/register").permitAll()
+                    .antMatchers(HttpMethod.GET,"/v1/register/confirm").permitAll()
+                .anyRequest()
+                    .authenticated()
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilter(authenticationFilter())
-//                .addFilter(new JwtAuthorizationFilter(authenticationManager(),userDetailsService(),secret))
                 .exceptionHandling()
-                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-                .and()
-                .headers().frameOptions().disable();
+                    .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
     }
 
     public JsonObjectAuthenticationFilter authenticationFilter() throws Exception{
-        JsonObjectAuthenticationFilter authenticationFilter = new JsonObjectAuthenticationFilter(objectMapper);
-        authenticationFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler);
-        authenticationFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
-        authenticationFilter.setAuthenticationManager(super.authenticationManager());
-        return authenticationFilter;
+        var filter = new JsonObjectAuthenticationFilter(objectMapper);
+        filter.setAuthenticationSuccessHandler(successHandler);
+        filter.setAuthenticationFailureHandler(failureHandler);
+        filter.setAuthenticationManager(super.authenticationManager());
+        return filter;
     }
 
-    @Bean
-    public UserDetailsManager userDetailManager(){
-        return new JdbcUserDetailsManager(dataSource);
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .userDetailsService(userService)
+                .passwordEncoder(passwordEncoder);
     }
-
-    //    @Autowired
-//    private UserService secMyUserDetailsService;
-//
-//    @Bean
-//    @Primary
-//    public BCryptPasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-//
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth
-////                .authenticationProvider(authenticationProvider());
-//        .userDetailsService(secMyUserDetailsService)
-//                .passwordEncoder(passwordEncoder());
-//    }
-//
-////    @Bean
-////    public DaoAuthenticationProvider authenticationProvider() {
-////        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-////        authenticationProvider.setUserDetailsService(secUserDetailsService);
-////        authenticationProvider.setPasswordEncoder(passwordEncoder());
-////        return authenticationProvider;
-////    }
-//@Override
-//protected void configure(HttpSecurity http) throws Exception {
-//    http
-//            .authorizeRequests()
-//            .antMatchers("/v1/users/create").permitAll()
-//            .anyRequest().authenticated()
-//            .and()
-//            .formLogin();
-//}
-//
-
 
 }
