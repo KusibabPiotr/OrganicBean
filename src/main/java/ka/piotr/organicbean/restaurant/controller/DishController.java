@@ -7,6 +7,7 @@ import ka.piotr.organicbean.restaurant.model.dto.DishDto;
 import ka.piotr.organicbean.restaurant.service.DishService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,12 +38,14 @@ public class DishController {
                 .orElseThrow(DishNotFoundException::new));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public DishDto createDish(@RequestBody DishDto dishDto) {
         return DishMapper.mapToDishDto(
                 dishService.createDish(DishMapper.mapToDish(dishDto)));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping(value = "/{dishId}",
     consumes = MediaType.APPLICATION_JSON_VALUE)
     public DishDto updateDish(@PathVariable Long dishId,
@@ -52,6 +55,7 @@ public class DishController {
                 dishService.updateDish(DishMapper.mapToDish(dishDto),dishId));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "/{dishId}")
     public void deleteDish(@PathVariable Long dishId)
             throws IllegalArgumentException{

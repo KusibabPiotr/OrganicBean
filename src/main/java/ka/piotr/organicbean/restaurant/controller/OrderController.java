@@ -10,6 +10,7 @@ import ka.piotr.organicbean.restaurant.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -26,22 +27,26 @@ public class OrderController {
 
     private final OrderService orderService;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
     public List <OrderDto> getAllOrders(){
         return OrderMapper.mapToOrderDtoList(orderService.getAllOrders());
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @GetMapping(value = "/{orderId}")
     public OrderDto getOrder(@PathVariable Long orderId)
             throws OrderNotFoundException{
         return OrderMapper.mapToOrderDto(orderService.getOrder(orderId));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @PostMapping
     public OrderDto createOrder(){
         return OrderMapper.mapToOrderDto(orderService.createOrder());
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @PatchMapping(value = "/{orderId}/dishes/{dishId}")
     public OrderDto addDishToOrder(@PathVariable Long orderId,
                                    @PathVariable Long dishId)
@@ -50,7 +55,8 @@ public class OrderController {
                 orderService.addDishToOrder(orderId,dishId));
     }
 
-    @PatchMapping(value = "/{orderId}/customers",
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+    @PatchMapping(value = "/{orderId}/customer",
                 consumes = MediaType.APPLICATION_JSON_VALUE)
     public OrderDto addCustomerToOrder(@PathVariable Long orderId,
                                        @RequestBody @Valid CustomerDto customerDto )
@@ -60,6 +66,7 @@ public class OrderController {
                         orderId,CustomerMapper.mapToCustomer(customerDto)));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @PutMapping(value = "/{orderId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public OrderDto updateOrder(@RequestBody @Valid OrderDto orderDto,
                                 @PathVariable Long orderId)
@@ -68,19 +75,23 @@ public class OrderController {
                 orderService.updateOrder(OrderMapper.mapToOrder(orderDto),orderId));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @DeleteMapping(value = "/{orderId}")
     public void deleteOrder(@PathVariable Long orderId)
             throws IllegalArgumentException{
         orderService.deleteOrder(orderId);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @DeleteMapping(value = "/{orderId}/dishes/{dishId}")
     public void removeDishFromOrder(@PathVariable Long orderId,
                                     @PathVariable Long dishId)
             throws OrderNotFoundException, DishNotFoundException {
         orderService.removeDishFromOrder(orderId,dishId);
     }
-    @DeleteMapping(value = "/{orderId}/customers")
+
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+    @DeleteMapping(value = "/{orderId}/customer")
     public void removeCustomerFromOrder(@PathVariable Long orderId)
             throws OrderNotFoundException {
         orderService.removeCustomerFromOrder(orderId);

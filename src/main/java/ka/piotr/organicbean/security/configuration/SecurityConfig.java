@@ -1,18 +1,16 @@
 package ka.piotr.organicbean.security.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ka.piotr.organicbean.jwt.filter.JsonObjectAuthenticationFilter;
 import ka.piotr.organicbean.jwt.JwtClassParams;
+import ka.piotr.organicbean.jwt.filter.JsonObjectAuthenticationFilter;
+import ka.piotr.organicbean.jwt.filter.JwtAuthorizationFilter;
 import ka.piotr.organicbean.jwt.handler.RestAuthenticationFailureHandler;
 import ka.piotr.organicbean.jwt.handler.RestAuthenticationSuccessHandler;
-import ka.piotr.organicbean.user.service.AppUserService;
+import ka.piotr.organicbean.user.model.Role;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,12 +18,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
-
-import javax.sql.DataSource;
-
 
 @Configuration
 @EnableWebSecurity
@@ -35,10 +29,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final RestAuthenticationSuccessHandler successHandler;
     private final RestAuthenticationFailureHandler failureHandler;
-    private final JwtClassParams jwtClassParams;
     private final ObjectMapper objectMapper;
     private final PasswordEncoder passwordEncoder;
     private final UserDetailsService userService;
+    private final JwtClassParams jwtParams;
 
 
     @Override
@@ -53,6 +47,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/swagger-resources/**").permitAll()
                     .antMatchers(HttpMethod.POST,"/login","/v1/register").permitAll()
                     .antMatchers(HttpMethod.GET,"/v1/register/confirm").permitAll()
+                    .antMatchers(HttpMethod.GET,"/v1/dishes/**").permitAll()
+                    .antMatchers(HttpMethod.GET,"/v1/weather/getNow").permitAll()
+                    .antMatchers(HttpMethod.POST,"/v1/dishes").hasRole(Role.ADMIN.name())
                 .anyRequest()
                     .authenticated()
                 .and()
@@ -60,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilter(authenticationFilter())
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(),jwtParams,userService))
                 .exceptionHandling()
                     .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
     }
@@ -68,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         var filter = new JsonObjectAuthenticationFilter(objectMapper);
         filter.setAuthenticationSuccessHandler(successHandler);
         filter.setAuthenticationFailureHandler(failureHandler);
-        filter.setAuthenticationManager(super.authenticationManager());
+        filter.setAuthenticationManager(authenticationManager());
         return filter;
     }
 
