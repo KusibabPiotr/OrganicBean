@@ -33,7 +33,6 @@ public class RestAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
         String token = JWT.create()
                 .withSubject(principal.getUsername())
 //                .withClaim("roles", principal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-
                 .withIssuedAt(new Date(System.currentTimeMillis()))
                 .withExpiresAt(java.sql.Date.valueOf(LocalDate.now().plusDays(jwtParams.getTokenExpirationTimeDays())))
                 .sign(jwtParams.getAlgorithm());

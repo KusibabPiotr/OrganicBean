@@ -1,4 +1,4 @@
-package ka.piotr.organicbean.registration.token;
+package ka.piotr.organicbean.registration.model;
 
 import ka.piotr.organicbean.user.model.AppUser;
 import lombok.Getter;

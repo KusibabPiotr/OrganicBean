@@ -1,5 +1,6 @@
-package ka.piotr.organicbean.registration.token;
+package ka.piotr.organicbean.registration.repository;
 
+import ka.piotr.organicbean.registration.model.ConfirmationToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

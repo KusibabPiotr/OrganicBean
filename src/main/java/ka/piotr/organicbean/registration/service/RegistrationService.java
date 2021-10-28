@@ -5,16 +5,12 @@ import ka.piotr.organicbean.registration.email.EmailBuilder;
 import ka.piotr.organicbean.registration.email.EmailSender;
 import ka.piotr.organicbean.registration.exception.PasswordNotMatchException;
 import ka.piotr.organicbean.registration.exception.TokenNotFoundException;
-import ka.piotr.organicbean.registration.exception.UserNotFoundException;
 import ka.piotr.organicbean.registration.model.RegistrationRequest;
-import ka.piotr.organicbean.registration.token.ConfirmationToken;
-import ka.piotr.organicbean.registration.token.ConfirmationTokenRepository;
-import ka.piotr.organicbean.registration.token.ConfirmationTokenService;
+import ka.piotr.organicbean.registration.model.ConfirmationToken;
 import ka.piotr.organicbean.user.model.AppUser;
 import ka.piotr.organicbean.user.repository.AppUserRepository;
 import ka.piotr.organicbean.user.service.AppUserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

@@ -1,4 +1,4 @@
-package ka.piotr.organicbean.security;
+package ka.piotr.organicbean.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ka.piotr.organicbean.jwt.JwtClassParams;
@@ -6,8 +6,8 @@ import ka.piotr.organicbean.jwt.filter.JsonObjectAuthenticationFilter;
 import ka.piotr.organicbean.jwt.filter.JwtAuthorizationFilter;
 import ka.piotr.organicbean.jwt.handler.RestAuthenticationFailureHandler;
 import ka.piotr.organicbean.jwt.handler.RestAuthenticationSuccessHandler;
-import ka.piotr.organicbean.user.model.Role;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -18,6 +18,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
@@ -74,6 +75,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth
                 .userDetailsService(userService)
                 .passwordEncoder(passwordEncoder);
+    }
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder(){
+        return new BCryptPasswordEncoder(10);
     }
 
 }

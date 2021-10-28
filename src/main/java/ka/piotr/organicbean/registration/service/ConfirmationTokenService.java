@@ -1,5 +1,7 @@
-package ka.piotr.organicbean.registration.token;
+package ka.piotr.organicbean.registration.service;
 
+import ka.piotr.organicbean.registration.model.ConfirmationToken;
+import ka.piotr.organicbean.registration.repository.ConfirmationTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
