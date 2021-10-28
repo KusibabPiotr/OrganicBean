@@ -48,8 +48,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request){
         String token = request.getHeader(jwtParams.getAccessTokenHeader());
 
-        log.error(token);
-        log.error(String.valueOf(token.startsWith(jwtParams.getPrefix())));
         if (token != null){
             String username = JWT.require(jwtParams.getAlgorithm())
                     .build()

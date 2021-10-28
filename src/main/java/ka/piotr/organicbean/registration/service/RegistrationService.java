@@ -1,14 +1,18 @@
 package ka.piotr.organicbean.registration.service;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import ka.piotr.organicbean.registration.email.EmailBuilder;
+import ka.piotr.organicbean.registration.email.EmailSender;
 import ka.piotr.organicbean.registration.exception.PasswordNotMatchException;
 import ka.piotr.organicbean.registration.exception.TokenNotFoundException;
 import ka.piotr.organicbean.registration.exception.UserNotFoundException;
 import ka.piotr.organicbean.registration.model.RegistrationRequest;
 import ka.piotr.organicbean.registration.token.ConfirmationToken;
 import ka.piotr.organicbean.registration.token.ConfirmationTokenRepository;
+import ka.piotr.organicbean.registration.token.ConfirmationTokenService;
 import ka.piotr.organicbean.user.model.AppUser;
 import ka.piotr.organicbean.user.repository.AppUserRepository;
+import ka.piotr.organicbean.user.service.AppUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,9 +24,10 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class RegistrationService {
 
-    private final PasswordEncoder passwordEncoder;
     private final AppUserRepository userRepository;
-    private final ConfirmationTokenRepository tokenRepository;
+    private final ConfirmationTokenService tokenService;
+    private final EmailSender emailSender;
+    private final AppUserService userService;
 
     @Transactional
     public String register(RegistrationRequest credentials)
@@ -34,28 +39,28 @@ public class RegistrationService {
             throw new IllegalStateException(String.format(
                     "User with email: %s already signed in!",credentials.getLogin()));
         }
-        AppUser user = userRepository.save(new AppUser(
+        AppUser user = userService.signUpUser(new AppUser(
                 credentials.getLogin(),
-                passwordEncoder.encode(credentials.getPassword())
-        ));
+                credentials.getPassword())
+        );
 
         var token = new ConfirmationToken(user);
-        tokenRepository.save(token);
+        tokenService.saveConfirmationToken(token);
 
-        return token.getToken();
+        String link = "http://localhost:8080/v1/register/confirm?token=" + token.getToken();
+        emailSender.send(credentials.getLogin(), EmailBuilder.buildEmail("New Organic Bean Lover",link));
+
+        return "Check you email box and confirm registration!";
     }
     @Transactional
     public void confirm(String token)
-            throws TokenNotFoundException, UserNotFoundException {
-        ConfirmationToken confirmationToken = tokenRepository.findByToken(token).orElseThrow(() ->
+            throws TokenNotFoundException{
+        ConfirmationToken confirmationToken = tokenService.getToken(token).orElseThrow(() ->
                 new TokenNotFoundException(String.format("Cannot find the token: %s", token)));
         if (confirmationToken.getExpiresAt().isBefore(LocalDateTime.now())){
             throw new TokenExpiredException("Your registration token expired! You have to sign in again!");
         }
-        confirmationToken.setConfirmedAt(LocalDateTime.now());
-        String username = confirmationToken.getAppUser().getUsername();
-        AppUser appUser = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException("There is no user with given email: %s "));
-        appUser.setEnabled(true);
+        tokenService.setConfirmedAt(token);
+        userService.enableAppUser(confirmationToken.getAppUser().getUsername());
     }
 }
