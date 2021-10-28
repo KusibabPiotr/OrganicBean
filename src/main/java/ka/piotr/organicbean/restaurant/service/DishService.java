@@ -41,6 +41,7 @@ public class DishService {
         dishDb.setDescription(dish.getDescription());
         dishDb.setPrice(dish.getPrice());
         dishDb.setKcal(dish.getKcal());
+        dishDb.setDishType(dish.getDishType());
         return dishDb;
     }
 

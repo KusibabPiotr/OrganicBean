@@ -1,4 +1,4 @@
-package ka.piotr.organicbean.security.configuration;
+package ka.piotr.organicbean.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ka.piotr.organicbean.jwt.JwtClassParams;
@@ -49,15 +49,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.GET,"/v1/register/confirm").permitAll()
                     .antMatchers(HttpMethod.GET,"/v1/dishes/**").permitAll()
                     .antMatchers(HttpMethod.GET,"/v1/weather/getNow").permitAll()
-                    .antMatchers(HttpMethod.POST,"/v1/dishes").hasRole(Role.ADMIN.name())
                 .anyRequest()
                     .authenticated()
                 .and()
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilter(authenticationFilter())
-                .addFilter(new JwtAuthorizationFilter(authenticationManager(),jwtParams,userService))
+                    .addFilter(authenticationFilter())
+                    .addFilterAfter(new JwtAuthorizationFilter(jwtParams,userService),JsonObjectAuthenticationFilter.class)
                 .exceptionHandling()
                     .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
     }

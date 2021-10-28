@@ -1,4 +1,4 @@
-package ka.piotr.organicbean.security.configuration;
+package ka.piotr.organicbean.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

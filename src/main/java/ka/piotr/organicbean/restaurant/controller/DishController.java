@@ -38,14 +38,14 @@ public class DishController {
                 .orElseThrow(DishNotFoundException::new));
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public DishDto createDish(@RequestBody DishDto dishDto) {
         return DishMapper.mapToDishDto(
                 dishService.createDish(DishMapper.mapToDish(dishDto)));
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping(value = "/{dishId}",
     consumes = MediaType.APPLICATION_JSON_VALUE)
     public DishDto updateDish(@PathVariable Long dishId,
@@ -55,7 +55,7 @@ public class DishController {
                 dishService.updateDish(DishMapper.mapToDish(dishDto),dishId));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping(value = "/{dishId}")
     public void deleteDish(@PathVariable Long dishId)
             throws IllegalArgumentException{
