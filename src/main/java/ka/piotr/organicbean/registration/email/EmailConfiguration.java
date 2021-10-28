@@ -1,5 +1,6 @@
 package ka.piotr.organicbean.registration.email;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -10,6 +11,9 @@ import java.util.Properties;
 @Configuration
 public class EmailConfiguration {
 
+    @Value("${email.password}")
+    private String emailPassword;
+
     @Bean
     public JavaMailSender getJavaMailSender(){
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
@@ -17,7 +21,7 @@ public class EmailConfiguration {
         mailSender.setPort(587);
 
         mailSender.setUsername("piotr.ka94@gmail.com");
-        mailSender.setPassword("Igloopol1");
+        mailSender.setPassword(emailPassword);
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
