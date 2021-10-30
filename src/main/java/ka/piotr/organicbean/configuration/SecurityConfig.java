@@ -1,14 +1,13 @@
 package ka.piotr.organicbean.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ka.piotr.organicbean.jwt.JwtClassParams;
 import ka.piotr.organicbean.jwt.filter.JsonObjectAuthenticationFilter;
 import ka.piotr.organicbean.jwt.filter.JwtAuthorizationFilter;
 import ka.piotr.organicbean.jwt.handler.RestAuthenticationFailureHandler;
 import ka.piotr.organicbean.jwt.handler.RestAuthenticationSuccessHandler;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -25,7 +24,6 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final RestAuthenticationSuccessHandler successHandler;
@@ -33,7 +31,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final ObjectMapper objectMapper;
     private final PasswordEncoder passwordEncoder;
     private final UserDetailsService userService;
-    private final JwtClassParams jwtParams;
+    private final JwtAuthorizationFilter authorizationFilter;
+
+    public SecurityConfig(RestAuthenticationSuccessHandler successHandler,
+                          RestAuthenticationFailureHandler failureHandler,
+                          ObjectMapper objectMapper,
+                          PasswordEncoder passwordEncoder,
+                          UserDetailsService userService,
+                          JwtAuthorizationFilter authorizationFilter) {
+        this.successHandler = successHandler;
+        this.failureHandler = failureHandler;
+        this.objectMapper = objectMapper;
+        this.passwordEncoder = passwordEncoder;
+        this.userService = userService;
+        this.authorizationFilter = authorizationFilter;
+    }
 
 
     @Override
@@ -57,7 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                     .addFilter(authenticationFilter())
-                    .addFilterAfter(new JwtAuthorizationFilter(jwtParams,userService),JsonObjectAuthenticationFilter.class)
+                    .addFilterAfter(authorizationFilter,JsonObjectAuthenticationFilter.class)
                 .exceptionHandling()
                     .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
     }
@@ -76,10 +88,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .userDetailsService(userService)
                 .passwordEncoder(passwordEncoder);
     }
-
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder(){
-        return new BCryptPasswordEncoder(10);
-    }
-
 }

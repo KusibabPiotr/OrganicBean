@@ -19,7 +19,7 @@ public class DishController {
 
     private final DishService dishService;
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<DishDto> getByParams(@RequestParam(value = "allergens",required = false) String params,
                                          @RequestParam(value = "name",required = false) String name,
                                          @RequestParam(value = "minKcal",defaultValue = "0") Integer minKcal,
@@ -31,7 +31,7 @@ public class DishController {
                 dishService.getByParams(params,name,minKcal,maxKcal,minPrice,maxPrice));
     }
 
-    @GetMapping(value = "/{dishId}")
+    @GetMapping(value = "/{dishId}",produces = MediaType.APPLICATION_JSON_VALUE)
     public DishDto getDish(@PathVariable Long dishId)
             throws DishNotFoundException {
         return DishMapper.mapToDishDto(dishService.getDish(dishId)

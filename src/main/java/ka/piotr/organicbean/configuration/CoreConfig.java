@@ -1,10 +1,12 @@
 package ka.piotr.organicbean.configuration;
 
-import ka.piotr.organicbean.jwt.JwtClassParams;
-import lombok.RequiredArgsConstructor;
+import ka.piotr.organicbean.jwt.SecurityConstant;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import org.springframework.context.annotation.Primary;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -21,15 +23,19 @@ import java.util.List;
 import static java.util.Collections.singletonList;
 
 @Configuration
-@RequiredArgsConstructor
 public class CoreConfig {
-
-    private final JwtClassParams jwtClassParams;
 
     @Bean
     public RestTemplate restTemplate(){
         return new RestTemplate();
     }
+
+    @Primary
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder(10);
+    }
+
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -56,6 +62,6 @@ public class CoreConfig {
     }
 
     private SecurityScheme createSchema() {
-        return new ApiKey("apiKey", jwtClassParams.getAccessTokenHeader(), "header");
+        return new ApiKey("apiKey", SecurityConstant.ACCESS_TOKEN_HEADER, "header");
     }
 }
